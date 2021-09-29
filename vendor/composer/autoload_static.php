@@ -6,6 +6,28 @@ namespace Composer\Autoload;
 
 class ComposerStaticInit4e26cec8d2ad2c9071ad9d34e3061a09
 {
+    public static $prefixLengthsPsr4 = array (
+        'F' => 
+        array (
+            'Framework\\' => 10,
+        ),
+        'C' => 
+        array (
+            'Controllers\\' => 12,
+        ),
+    );
+
+    public static $prefixDirsPsr4 = array (
+        'Framework\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/framework',
+        ),
+        'Controllers\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/controllers',
+        ),
+    );
+
     public static $classMap = array (
         'Smarty' => __DIR__ . '/..' . '/smarty/smarty/libs/Smarty.class.php',
         'SmartyBC' => __DIR__ . '/..' . '/smarty/smarty/libs/SmartyBC.class.php',
@@ -185,6 +207,8 @@ class ComposerStaticInit4e26cec8d2ad2c9071ad9d34e3061a09
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
+            $loader->prefixLengthsPsr4 = ComposerStaticInit4e26cec8d2ad2c9071ad9d34e3061a09::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit4e26cec8d2ad2c9071ad9d34e3061a09::$prefixDirsPsr4;
             $loader->classMap = ComposerStaticInit4e26cec8d2ad2c9071ad9d34e3061a09::$classMap;
 
         }, null, ClassLoader::class);

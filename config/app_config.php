@@ -7,4 +7,5 @@ return [
 
     /* Set the app name which can later be retrieved anywhere in the application */ 
     'app_name'=>"Framework test app"
+
 ];

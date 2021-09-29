@@ -1,6 +1,6 @@
 <?php
 
-namespace Framework\View;
+namespace Framework;
 
 abstract class View 
 {
