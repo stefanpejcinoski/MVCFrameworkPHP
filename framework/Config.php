@@ -30,9 +30,9 @@ class Config
      * Returns the value for the given configuration key if it exists
      * 
      * @param string $key
-     * @return mixed
+     *
      */
-    public function getKey(string $key) :mixed
+    public function getKey(string $key) 
     {
         if($this->hasKey($key))
             return $this->config[$key];

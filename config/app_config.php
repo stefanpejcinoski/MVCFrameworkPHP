@@ -6,6 +6,10 @@ return [
     'debug'=>true,
 
     /* Set the app name which can later be retrieved anywhere in the application */ 
-    'app_name'=>"Framework test app"
-
+    'app_name'=>"Framework test app",
+    'template_directory'=>'resources/templates',
+    'root_directory'=>$_SERVER['DOCUMENT_ROOT'],
+    'stylesheets_directory'=>'resources/css',
+    'scripts_directory'=>'resources/js',
+    'compiled_templates_directory'=>'storage/views'
 ];
