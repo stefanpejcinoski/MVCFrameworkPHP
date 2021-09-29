@@ -13,11 +13,16 @@ class Router
 
     protected $routes;
 
-    public function __construct(array $routelist)
+    public function __construct(Config $config)
     {
-        $this->routes = $routelist;
+        $this->routes = $config->getAll();
     }
-
+    /**
+     * Handles the request contained in the provided Request object
+     * 
+     * @param Framework\Request $request
+     * 
+     */
     public function handleRequest(Request $request)
     {
         
@@ -36,7 +41,7 @@ class Router
                 break;
         }
     }
-
+    
     protected function handleGetRequest(Request $request)
     {
         $requestPath = $this->getRequestPath();

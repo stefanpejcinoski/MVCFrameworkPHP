@@ -14,7 +14,7 @@ $request = new Request();
 $routes = new Config('routes');
 
 //Generate a router with the defined routes
-$router = new Router($routes->getAll());
+$router = new Router($routes);
 
 //Dispatch the request to the desired controller
 $router->handleRequest($request);
