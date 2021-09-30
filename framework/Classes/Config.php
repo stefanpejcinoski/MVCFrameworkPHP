@@ -1,6 +1,6 @@
 <?php
 
-namespace Framework;
+namespace Framework\Classes;
 
 use Framework\Traits\ConfigAccess;
 

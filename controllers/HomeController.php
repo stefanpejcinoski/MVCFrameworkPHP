@@ -2,16 +2,14 @@
 
 namespace Controllers;
 
-use Framework\Config;
-use Framework\Controller;
-use Views\HomeView;
+use Framework\Classes\Config;
+use Framework\Classes\Controller;
+use Framework\Classes\View;
 
 class HomeController extends Controller
 {
     public function index() 
     {
-        $config = new Config('app');
-        $view = new HomeView($config);
-        $view->homePage($config);
+        View::create()->display('homepage', ["text"=>"HelloWorld"]);
     }
 }

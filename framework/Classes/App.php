@@ -4,11 +4,11 @@
  * Class defining the application itself. Contains methods responsible for building and running the application 
  */
 
- namespace Framework;
+ namespace Framework\Classes;
 
- use Framework\Router;
- use Framework\Config;
- use Framework\Request;
+ use Framework\Classes\Router;
+ use Framework\Classes\Config;
+ use Framework\Classes\Request;
 
  class App 
  {

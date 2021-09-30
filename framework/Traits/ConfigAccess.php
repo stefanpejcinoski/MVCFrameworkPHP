@@ -3,6 +3,7 @@
 namespace Framework\Traits;
 
 use Exception;
+use InvalidArgumentException;
 
 trait ConfigAccess
 {
@@ -14,7 +15,7 @@ trait ConfigAccess
                 $configArray = include($fullPath);
             }
             else {
-                throw new Exception("Configuration file not found");
+                throw new InvalidArgumentException("Provided configuration file doesn't exist");
             }
         return $configArray;
     }

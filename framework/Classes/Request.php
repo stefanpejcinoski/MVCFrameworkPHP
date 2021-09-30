@@ -1,6 +1,6 @@
 <?php
 
-namespace Framework;
+namespace Framework\Classes;
 
 /**
  * Defines a request object and methods to retrieve the request's parameters

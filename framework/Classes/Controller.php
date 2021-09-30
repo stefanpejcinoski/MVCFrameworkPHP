@@ -1,8 +1,9 @@
 <?php
 
-namespace Framework\Model;
+namespace Framework\Classes;
 
-abstract class Model 
+
+abstract class Controller
 {
     public function __construct()
     {

@@ -3,6 +3,11 @@
 here you can set debug messages on or off and set the app name */
 return [
 
+
+    /* This property defines the template rendering engine to be used, by default it's Smarty PHP but it can be redefined
+    note that you also need to make an interface class for the engine you're planning to use 
+    and have it implement the Framework/Interfaces/TemplateRendering interface. */
+    'template_engine'=>[SmartyTemplateRendering::class],
     /* Set the app name which can later be retrieved anywhere in the application */ 
     'app_name'=>"Framework test app",
 

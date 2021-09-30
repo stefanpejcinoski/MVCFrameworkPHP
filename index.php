@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 require __DIR__."/vendor/autoload.php";
 
-use Framework\App;
+use Framework\Classes\App;
 
 //Get an instance of the application
 $app = new App();

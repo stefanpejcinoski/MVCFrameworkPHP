@@ -6,7 +6,7 @@
 
  namespace Framework\Traits;
 
-use Framework\Config;
+use Framework\Classes\Config;
 
 trait TemplateHelpers
  {
