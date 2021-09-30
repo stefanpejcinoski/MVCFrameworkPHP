@@ -12,6 +12,9 @@ class Request
     protected $request;
     protected $accepts;
     protected $method;
+    protected $getParameters;
+    protected $postParameters;
+    protected $parameters;
 
     /**
      * Captures an incoming request and saves it in a Request object where it can later be processed using the class methods
@@ -20,7 +23,9 @@ class Request
     public function __construct()
     {
         $this->request = $_REQUEST;
-        $this->parameters = [...$_GET,...$_POST];
+        $this->getParameters = $_GET;
+        $this->postParameters = $_POST;
+        $this->parameters = array_merge($this->postParameters, $this->getParameters);
         $this->method = $_SERVER['REQUEST_METHOD'];
         $this->accepts = explode(',', $_SERVER['HTTP_ACCEPT']);
     }

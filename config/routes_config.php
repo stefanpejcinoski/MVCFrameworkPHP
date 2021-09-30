@@ -13,12 +13,12 @@ return [
             'auth'=>false
         ],
         '/login'=>[
-            'action'=>fn()=>View::getView()->display('login', ["appname"=>Config::getConfig('app')->getKey('app_name')]),
+            'action'=>fn($request)=>View::getView()->display('login', ["appname"=>Config::getConfig('app')->getKey('app_name'), "params"=>$request->all()]),
             'name'=>'login',
             'auth'=>false
         ],
         '/register'=>[
-            'action'=>fn()=>View::getView()->display('register', ["appname"=>Config::getConfig('app')->getKey('app_name')]),
+            'action'=>fn($request)=>View::getView()->display('register', ["appname"=>Config::getConfig('app')->getKey('app_name')]),
             'name'=>'register',
             'auth'=>false
         ]

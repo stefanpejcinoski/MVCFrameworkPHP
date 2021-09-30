@@ -31,7 +31,6 @@
 
         //Capture the incoming request
         $this->request = new Request();
-        
         //Handle the captured request
         $this->router->handleRequest($this->request);
     }

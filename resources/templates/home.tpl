@@ -17,7 +17,6 @@
   </div>
 </nav>
 <div class="container">
-<h3>Search for user</h3>
 <div class="form-group">
 <label for="select_user">Select user type</label>
 <select class="form-select" id="select_user" aria-label="Default select example">
