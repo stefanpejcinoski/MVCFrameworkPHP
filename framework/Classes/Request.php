@@ -35,7 +35,7 @@ class Request
         return array_key_exists($key, $this->parameters);
     }
 
-    public function getKey(string $key) :mixed
+    public function getKey(string $key) 
     {
         if ($this->hasKey($key))
             return $this->parameters[$key];
