@@ -43,7 +43,7 @@ use Framework\Traits\TemplateHelpers;
      */
     public function display(string $template, array $parameters = []) 
     {
-         
+        
         $scriptsDir = self::joinPaths([PROJECTROOT, Config::getConfig('app')->getKey('scripts_directory')]);
         $stylesheetsDir = self::joinPaths([PROJECTROOT, Config::getConfig('app')->getKey('stylesheets_directory')]);
 

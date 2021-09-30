@@ -25,7 +25,7 @@ return [
         ],
     'post'=>[
         '/login'=>[
-            'action'=>fn($request)=>die(var_dump($request->only(['username', 'password'])))
+            'action'=>fn($request)=>die(var_dump($request->all()))
         ]
         ],
     'put'=>[

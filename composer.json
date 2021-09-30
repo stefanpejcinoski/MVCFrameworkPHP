@@ -8,6 +8,9 @@
             "Controllers\\": "controllers",
             "Models\\": "models",
             "Views\\": "views"
-        }
+        },
+        "files":[
+            "framework/StaticHelperFunctions/Helpers.php"
+        ]
     }
 }

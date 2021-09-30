@@ -10,7 +10,7 @@
  {
      protected array $rules;
      protected array $errors;
-
+     protected static $rulesList;
      public function __construct(array $rules)
      {
          $this->rules = $rules;
@@ -20,10 +20,18 @@
      }
      public function validateRequest(Request $request) {
          foreach ($this->rules as $key=>$keyRules){
-             $keyRuleArr = explode(',', $keyRules);
-             if((!$request->hasKey($key)) && in_array('required', $keyRuleArr)) {
-                 array_push($this->errors, $key."is missing but required");
-             }
+            foreach($keyRules as $rule){
+                $searchKey = $rule;
+                if(str_contains($rule, ':')){
+                    $searchKey = explode(':', $rule)[0].":x";
+                    $callback = Config::getConfig('validator')->getKey($searchKey);
+                    $callback($request, $key, explode(':', $rule)[1]);
+                }
+                else {
+                    $callback = Config::getConfig('validator')->getKey($searchKey);
+                    $callback($request, $key); 
+                }
+            } 
          }
      }
  }

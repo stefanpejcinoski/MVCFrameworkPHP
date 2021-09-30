@@ -38,17 +38,23 @@ class Request
                 $this->parameters = json_decode($this->body);
                 break;
             default:
+            
                 parse_str($this->body, $this->parameters);
                 break;
         }
     }
-    
+
     protected function parseRequestUrl() {
         $query = []; 
         parse_str(parse_url($this->getFullRequestUrl(), PHP_URL_QUERY), $query);
         foreach($query as $key=>$parameter){
             $this->parameters[$key] = $parameter;
         }
+    }
+
+    public function isFormData() :bool 
+    {
+        return $this->method != "GET" && ($this->getContentType() == "application/x-www-form-urlencoded" || $this->getContentType() == "multipart/form-data");
     }
 
     public function hasKey(string $key) :bool 
@@ -82,7 +88,7 @@ class Request
     {
         $returnArray = [];
         foreach ($parameters as $param) {
-            array_push($returnArray, $this->getKey($param));
+            $returnArray[$param] = $this->getKey($param);
         }
         return $returnArray;
     }
