@@ -17,7 +17,7 @@ class Router
     {
         $this->routes = Config::getConfig('routes')->getAll();
     }
-    /**
+    /***
      * Handles the request contained in the provided Request object
      * 
      * @param Framework\Request $request
