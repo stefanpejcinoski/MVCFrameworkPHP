@@ -23,5 +23,9 @@ return [
             'auth'=>false
         ]
         ],
-    'post'=>[]
+    'post'=>[
+        '/login'=>[
+            'action'=>fn($request)=>die(var_dump($request->all()))
+        ]
+    ]
 ];
