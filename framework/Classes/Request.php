@@ -12,9 +12,8 @@ class Request
     protected $request;
     protected $accepts;
     protected $method;
-    protected $getParameters;
-    protected $postParameters;
-    protected $putPatchParameters;
+    protected $headers;
+    protected $body;
     protected $parameters;
 
     /**
@@ -24,13 +23,32 @@ class Request
     public function __construct()
     {
         $this->request = $_REQUEST;
-        $this->getParameters = $_GET;
-        $this->postParameters = $_POST;
+        $this->headers = getallheaders();
         $this->method = $_SERVER['REQUEST_METHOD'];
-        $this->accepts = explode(',', $_SERVER['HTTP_ACCEPT']);
-        $this->putPatchParameters = [];
-        parse_str(file_get_contents("php://input"), $this->putPatchParameters);
-        $this->parameters = array_merge($this->postParameters, $this->getParameters, $this->putPatchParameters);
+        $this->accepts = explode(',', $this->headers['Accept']);
+        $this->body = file_get_contents("php://input");
+        $this->parameters = [];
+        $this->parseRequestBody();
+        $this->parseRequestUrl();
+    }
+
+    protected function parseRequestBody() {
+        switch ($this->headers['Content-Type']) {
+            case "application/json":
+                $this->parameters = json_decode($this->body);
+                break;
+            default:
+                parse_str($this->body, $this->parameters);
+                break;
+        }
+    }
+    
+    protected function parseRequestUrl() {
+        $query = []; 
+        parse_str(parse_url($this->getFullRequestUrl(), PHP_URL_QUERY), $query);
+        foreach($query as $key=>$parameter){
+            $this->parameters[$key] = $parameter;
+        }
     }
 
     public function hasKey(string $key) :bool 
@@ -69,6 +87,12 @@ class Request
         return $returnArray;
     }
     
+
+    public function getContentType() :string 
+    {
+        return $this->headers['Content-Type'];
+    }
+
     public function accepts() :array
     {
         return $this->accepts;
