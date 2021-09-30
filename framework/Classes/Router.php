@@ -77,33 +77,89 @@ class Router
     protected function handlePostRequest(Request $request) 
     {
         $requestPath = $request->getRequestPath();
+        if($request->hasId()){
+            $url_elements = $request->getPathElements();
+            $url = '/'.$url_elements['before'].'/{}'.($url_elements['after']!=''?'/'.$url_elements['after']:'');
+            if(array_key_exists($url, $this->routes['post'])){
+              if (is_callable($this->routes['post'][$url]['action'])){
+                call_user_func($this->routes['post'][$url]['action'], $request, $url_elements['id']);
+            }
+        }
+            else {
+                http_response_code(404);
+            }
+        }
+          
+        else {
         if (array_key_exists($requestPath, $this->routes['post'])){
             if (is_callable($this->routes['post'][$requestPath]['action'])){
                 call_user_func($this->routes['post'][$requestPath]['action'], $request);
             }
           
         }
+        else {
+            http_response_code(404);
+        }
+        }
+    
     }
 
     protected function handlePutRequest(Request $request)
     {
         $requestPath = $request->getRequestPath();
+        if($request->hasId()){
+            $url_elements = $request->getPathElements();
+            $url = '/'.$url_elements['before'].'/{}'.($url_elements['after']!=''?'/'.$url_elements['after']:'');
+            if(array_key_exists($url, $this->routes['put'])){
+              if (is_callable($this->routes['put'][$url]['action'])){
+                call_user_func($this->routes['put'][$url]['action'], $request, $url_elements['id']);
+            }
+        }
+            else {
+                http_response_code(404);
+            }
+        }
+          
+        else {
         if (array_key_exists($requestPath, $this->routes['put'])){
             if (is_callable($this->routes['put'][$requestPath]['action'])){
                 call_user_func($this->routes['put'][$requestPath]['action'], $request);
             }
           
         }
+        else {
+            http_response_code(404);
+        }
+    }
+    
     }
 
     protected function handleDeleteRequest(Request $request)
     {
         $requestPath = $request->getRequestPath();
+        if($request->hasId()){
+            $url_elements = $request->getPathElements();
+            $url = '/'.$url_elements['before'].'/{}'.($url_elements['after']!=''?'/'.$url_elements['after']:'');
+            if(array_key_exists($url, $this->routes['delete'])){
+              if (is_callable($this->routes['delete'][$url]['action'])){
+                call_user_func($this->routes['delete'][$url]['action'], $request, $url_elements['id']);
+            }
+        }
+            else {
+                http_response_code(404);
+            }
+        }
+          
+        else {
         if (array_key_exists($requestPath, $this->routes['delete'])){
             if (is_callable($this->routes['delete'][$requestPath]['action'])){
                 call_user_func($this->routes['delete'][$requestPath]['action'], $request);
             }
           
         }
+        else {
+            http_response_code(404);
+        }
     }
+}
 }
