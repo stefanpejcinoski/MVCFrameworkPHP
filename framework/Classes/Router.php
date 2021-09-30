@@ -45,6 +45,7 @@ class Router
     protected function handleGetRequest(Request $request)
     {
         $requestPath = $request->getRequestPath();
+        
         if (array_key_exists($requestPath, $this->routes['get'])){
             if (is_callable($this->routes['get'][$requestPath]['action'])){
                 call_user_func($this->routes['get'][$requestPath]['action'], $request);
