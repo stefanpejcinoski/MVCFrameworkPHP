@@ -27,5 +27,10 @@ return [
         '/login'=>[
             'action'=>fn($request)=>die(var_dump($request->only(['username', 'password'])))
         ]
+        ],
+    'put'=>[
+        '/test/{}'=>[
+            'action'=>fn($request, $id)=>die(var_dump($request->all()))
+        ]
     ]
 ];

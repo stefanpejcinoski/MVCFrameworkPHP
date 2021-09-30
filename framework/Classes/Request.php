@@ -14,6 +14,7 @@ class Request
     protected $method;
     protected $getParameters;
     protected $postParameters;
+    protected $putPatchParameters;
     protected $parameters;
 
     /**
@@ -25,9 +26,11 @@ class Request
         $this->request = $_REQUEST;
         $this->getParameters = $_GET;
         $this->postParameters = $_POST;
-        $this->parameters = array_merge($this->postParameters, $this->getParameters);
         $this->method = $_SERVER['REQUEST_METHOD'];
         $this->accepts = explode(',', $_SERVER['HTTP_ACCEPT']);
+        $this->putPatchParameters = [];
+        parse_str(file_get_contents("php://input"), $this->putPatchParameters);
+        $this->parameters = array_merge($this->postParameters, $this->getParameters, $this->putPatchParameters);
     }
 
     public function hasKey(string $key) :bool 
