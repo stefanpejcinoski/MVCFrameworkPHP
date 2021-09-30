@@ -5,7 +5,7 @@ namespace Framework\Classes;
 use Framework\Interfaces\TemplateRendering;
 use Framework\Traits\FileOperations;
 use Framework\Traits\TemplateHelpers;
-use Smarty;
+
 
 /**
  * Defines properties and methods necessary for rendering template views
@@ -18,9 +18,10 @@ use Smarty;
     use FileOperations;
 
     protected static View $instance;
+    protected TemplateRendering $engineInstance;
     public function __construct()
     {
-        $this->engine = Config::getConfig('app')->getKey('template_engine');
+        $this->engineInstance = Config::getConfig('app')->getKey('template_engine')::getRenderer();
     }
 
     /**
@@ -60,7 +61,7 @@ use Smarty;
          }
 
          $template = $this->loadTemplate(Config::getConfig('app'), $template);
-         SmartyRenderer::getRenderer()->renderAndDisplayTemplate($parameters, $template);
+         $this->engineInstance->renderAndDisplayTemplate($parameters, $template);
 
     }
      /**
@@ -91,7 +92,7 @@ use Smarty;
         }
 
          $template = $this->loadTemplate(Config::getConfig('app'), $template);
-         $renderedString = SmartyRenderer::getRenderer()->getRenderedTemplateString($parameters, $template);
+         $renderedString = $this->engineInstance->getRenderedTemplateString($parameters, $template);
 
          $fullTemplate.=$renderedString;
 
