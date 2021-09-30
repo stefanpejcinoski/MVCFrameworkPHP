@@ -10,6 +10,6 @@ class HomeController extends Controller
 {
     public function index() 
     {
-        View::create()->display('homepage', ["text"=>"HelloWorld"]);
+        View::getView()->display('homepage', ["text"=>"HelloWorld"]);
     }
 }

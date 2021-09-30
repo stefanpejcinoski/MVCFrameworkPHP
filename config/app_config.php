@@ -3,6 +3,7 @@
 here you can set debug messages on or off and set the app name */
 return [
 
+    /* When setting paths don't add a leading or trailing backslash, example "parent/directory" instead of "/parent/directory/"
 
     /* This property defines the template rendering engine to be used, by default it's Smarty PHP but it can be redefined
     note that you also need to make an interface class for the engine you're planning to use 
