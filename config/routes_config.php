@@ -17,8 +17,8 @@ return [
             'name'=>'login',
             'auth'=>false
         ],
-        '/register/{}'=>[
-            'action'=>fn($request, $id)=>die($id),
+        '/register'=>[
+            'action'=>fn($request)=>View::getView()->display('register', ["appname"=>Config::getConfig('app')->getKey('app_name'), "params"=>$request->all()]),
             'name'=>'register',
             'auth'=>false
         ]

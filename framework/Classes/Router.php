@@ -45,12 +45,13 @@ class Router
     protected function handleGetRequest(Request $request)
     {
         $requestPath = $request->getRequestPath();
+       
         if($request->hasId()){
             $url_elements = $request->getPathElements();
             $url = '/'.$url_elements['before'].'/{}'.($url_elements['after']!=''?'/'.$url_elements['after']:'');
             if(array_key_exists($url, $this->routes['get'])){
-              if (is_callable($this->routes['get'][$requestPath]['action'])){
-                call_user_func($this->routes['get'][$requestPath]['action'], $request, $url_elements['id']);
+              if (is_callable($this->routes['get'][$url]['action'])){
+                call_user_func($this->routes['get'][$url]['action'], $request, $url_elements['id']);
             }
         }
             else {
