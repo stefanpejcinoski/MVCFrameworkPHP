@@ -18,8 +18,6 @@ return [
     /* Set the tamplate directory for Smarty templates */
     'template_directory'=>'resources/templates',
 
-    /* Set the root directory for the application */
-    'root_directory'=>$_SERVER['DOCUMENT_ROOT'],
 
     /* Set the directory for stylesheets */
     'stylesheets_directory'=>'resources/css',

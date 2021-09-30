@@ -17,9 +17,11 @@
     protected $template;
      public function __construct()
      {
+      
          $this->smartyInstance = new Smarty();
          $this->smartyInstance->setCompileDir($this->getCompiledTemplateDirectory(Config::getConfig('app')));
          $this->smartyInstance->caching = false;
+       
      }
 
      public static function getRenderer()
@@ -30,7 +32,7 @@
 
      public function assignVariables(array $variables)
      {
-         if (is_array($variables))
+         if (!empty($variables))
          {
             foreach ($variables as $name=>$value){
                 $this->smartyInstance->assign($name, $value);
@@ -38,13 +40,16 @@
          }
      }
 
-     public function renderAndDisplayTemplate(array $variables, string $template)
+     public function renderAndDisplayTemplate(string $template, array $variables)
      {
+     
+       
          $this->assignVariables($variables);
+       
          $this->smartyInstance->display($template);
      }
 
-     public function getRenderedTemplateString(array $variables, string $template)
+     public function getRenderedTemplateString(string $template, array $variables)
      {
          $this->assignVariables($variables);
          return $this->smartyInstance->fetch($template);

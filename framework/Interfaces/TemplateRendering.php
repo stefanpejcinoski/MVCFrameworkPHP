@@ -9,7 +9,7 @@ interface TemplateRendering
 {
     public static function getRenderer();
 
-    public function getRenderedTemplateString(array $variables, string $template);
+    public function getRenderedTemplateString(string $template, array $variables);
 
-    public function renderAndDisplayTemplate(array $variables, string $tempalte);
+    public function renderAndDisplayTemplate(string $template, array $variables);
 }

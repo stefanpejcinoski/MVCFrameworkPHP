@@ -41,12 +41,11 @@ use Framework\Traits\TemplateHelpers;
      * @param array $scripts optional
      * @param array $styles optional
      */
-    public function display(string $template, array $parameters = null) 
+    public function display(string $template, array $parameters = []) 
     {
-        
-        
-         $scriptsDir = self::joinPaths([Config::getConfig('app')->getKey('root_directory'), Config::getConfig('app')->getKey('scripts_directory')]);
-         $stylesheetsDir = self::joinPaths([Config::getConfig('app')->getKey('root_directory'), Config::getConfig('app')->getKey('stylesheets_directory')]);
+         
+        $scriptsDir = self::joinPaths([PROJECTROOT, Config::getConfig('app')->getKey('scripts_directory')]);
+        $stylesheetsDir = self::joinPaths([PROJECTROOT, Config::getConfig('app')->getKey('stylesheets_directory')]);
 
          $scriptList = $this->loadFilesFromDirectory($scriptsDir, 'js');
          $stylesheetList = $this->loadFilesFromDirectory($stylesheetsDir, 'css');
@@ -59,9 +58,10 @@ use Framework\Traits\TemplateHelpers;
          foreach($stylesheetList as $stylesheet){
             echo '<link rel="stylesheet" href="'.$this->joinPaths([Config::getConfig('app')->getKey('stylesheets_directory'), $stylesheet]).'"></link>';
          }
-
+        
          $template = $this->loadTemplate(Config::getConfig('app'), $template);
-         $this->engineInstance->renderAndDisplayTemplate($parameters, $template);
+        
+         $this->engineInstance->renderAndDisplayTemplate($template, $parameters);
 
     }
      /**
@@ -76,23 +76,23 @@ use Framework\Traits\TemplateHelpers;
     {
         $fullTemplate= '';
         
-        $scriptsDir = self::joinPaths([Config::getConfig('app')->getKey('root_directory'), Config::getConfig('app')->getKey('scripts_directory')]);
-        $stylesheetsDir = self::joinPaths([Config::getConfig('app')->getKey('root_directory'), Config::getConfig('app')->getKey('stylesheets_directory')]);
-
+        $scriptsDir = self::joinPaths([PROJECTROOT, Config::getConfig('app')->getKey('scripts_directory')]);
+        $stylesheetsDir = self::joinPaths([PROJECTROOT, Config::getConfig('app')->getKey('stylesheets_directory')]);
+        
         $scriptList = $this->loadFilesFromDirectory($scriptsDir, 'js');
         $stylesheetList = $this->loadFilesFromDirectory($stylesheetsDir, 'css');
 
         foreach($scriptList as $script){
-           $fullTemplate.= '<script src="'.$this->joinPaths([Config::getConfig('app')->getKey('scripts_directory'), $script]).'"/></script>';
+           $fullTemplate.= '<script src="'.$this->joinPaths(['/', Config::getConfig('app')->getKey('scripts_directory'), $script]).'"/></script>';
         }
 
 
         foreach($stylesheetList as $stylesheet){
-           $fullTemplate.= '<link rel="stylesheet" href="'.$this->joinPaths([Config::getConfig('app')->getKey('stylesheets_directory'), $stylesheet]).'"></link>';
+           $fullTemplate.= '<link rel="stylesheet" href="'.$this->joinPaths(['/', Config::getConfig('app')->getKey('stylesheets_directory'), $stylesheet]).'"></link>';
         }
 
          $template = $this->loadTemplate(Config::getConfig('app'), $template);
-         $renderedString = $this->engineInstance->getRenderedTemplateString($parameters, $template);
+         $renderedString = $this->engineInstance->getRenderedTemplateString($template, $parameters);
 
          $fullTemplate.=$renderedString;
 

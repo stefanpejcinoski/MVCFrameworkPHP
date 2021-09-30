@@ -52,6 +52,9 @@ class Router
             }
           
         }
+        else {
+            View::getView()->display('pagenotfound');
+        }
     }
 
     protected function handlePostRequest(Request $request) 

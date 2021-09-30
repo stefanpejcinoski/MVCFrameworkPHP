@@ -1,5 +1,7 @@
 <?php
 declare(strict_types=1);
+define('PROJECTROOT', __DIR__);
+
 
 require __DIR__."/vendor/autoload.php";
 
