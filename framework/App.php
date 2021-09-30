@@ -13,21 +13,21 @@
  class App 
  {
     protected $request;
-    protected $routesConfig;
     protected $router;
-    protected $appConfig;
-    protected $databaseConfig;
 
     /* Generates an instance of the App and saves the configuration options for the instance as properties */
     public function __construct(){
-        $this->routesConfig = new Config('routes');
-        $this->appConfig = new Config('app');
-        $this->databaseConfig = new Config('database');
-        $this->router = new Router($this->routesConfig);
+        $this->router = new Router();
     }
     
     /* Boots the application, handles the incoming request and terminates */
     public function boot() {
+
+        //Check if app is in maintenance mode
+        if($this->appConfig::getKey('maintenance') == 'On')
+        {
+            //TODO handle maintenance mode 
+        }
 
         //Capture the incoming request
         $this->request = new Request();

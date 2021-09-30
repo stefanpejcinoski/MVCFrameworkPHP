@@ -16,10 +16,10 @@ abstract class View
 
     protected Smarty $smartyInstance;
 
-    public function __construct(Config $config)
+    public function __construct()
     {
         $this->smartyInstance = new Smarty();
-        $this->smartyInstance->setCompileDir($this->getCompiledTemplateDirectory($config));
+        $this->smartyInstance->setCompileDir($this->getCompiledTemplateDirectory(Config::getConfig('app')));
     }
 
     /**

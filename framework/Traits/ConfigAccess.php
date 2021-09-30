@@ -6,7 +6,7 @@ use Exception;
 
 trait ConfigAccess
 {
-    protected function getConfigArray(string $config) :array
+    protected static function getConfigArray(string $config) :array
     {
         $configArray = [];
         $fullPath =dirname(dirname(__DIR__)).'/config/'.$config.'_config.php';

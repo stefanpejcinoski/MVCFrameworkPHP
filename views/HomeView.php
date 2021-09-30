@@ -10,8 +10,8 @@ use Framework\View;
  */
 class HomeView extends View
 {
-    public function __construct(Config $config){
-        parent::__construct($config);
+    public function __construct(){
+        parent::__construct();
     }
     
     
