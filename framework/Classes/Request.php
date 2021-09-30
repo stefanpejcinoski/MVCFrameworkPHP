@@ -85,5 +85,37 @@ class Request
     {
         return parse_url($this->getFullRequestUrl(), PHP_URL_HOST);
     }
+    public function hasId() :bool
+    {
+        $url = $this->getRequestPath();
+        $items = explode('/', $url);
+        foreach($items as $item) {
+            if (is_numeric($item))
+                return true;
+        }
+        return false;
+    }
 
+    public function getPathElements()
+    {
+        if($this->hasId()){
+            $url = $this->getRequestPath();
+            $elements = explode('/', $url);
+            $beforeId = '';
+            $id = '';
+            $afterId = '';
+            $index = 0;
+            foreach($elements as $key=>$element){
+                $index = $key;
+                if(is_numeric($element))
+                    break;
+                $beforeId.=$element;
+            }
+            $id=$elements[$index++];
+            if(count($elements)>$index)
+                $afterId = $elements[$index];
+
+            return['before'=>$beforeId, 'id'=>$id, 'after'=>$afterId];
+        }
+    }
 }
