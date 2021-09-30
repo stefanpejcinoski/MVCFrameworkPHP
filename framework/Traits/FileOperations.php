@@ -36,7 +36,7 @@ trait FileOperations
     }
 
     /**
-     * Get all files from the provided directory with the provided file extension, as an array of strings containing the full paths to the files
+     * Get all files from the provided directory with the provided file extension, as an array of strings containing the filenames
      * 
      * @param string $directory
      * @param string extension
@@ -48,7 +48,7 @@ trait FileOperations
         $files_list = scandir($directory);
         foreach ($files_list as $filename) {
             if(pathinfo($filename, PATHINFO_EXTENSION) == $extension){
-                array_push($files, self::joinPaths([$directory, $filename]));
+                array_push($files, $filename);
             }
         }
         return $files;

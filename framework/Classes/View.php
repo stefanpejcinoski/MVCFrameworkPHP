@@ -43,15 +43,20 @@ use Smarty;
     public function display(string $template, array $parameters = null) 
     {
         
+        
          $scriptsDir = self::joinPaths([Config::getConfig('app')->getKey('root_directory'), Config::getConfig('app')->getKey('scripts_directory')]);
          $stylesheetsDir = self::joinPaths([Config::getConfig('app')->getKey('root_directory'), Config::getConfig('app')->getKey('stylesheets_directory')]);
-         foreach($this->loadFilesFromDirectory($scriptsDir, 'js') as $script){
-            echo '<script src="'.$script.'"/></script>';
+
+         $scriptList = $this->loadFilesFromDirectory($scriptsDir, 'js');
+         $stylesheetList = $this->loadFilesFromDirectory($stylesheetsDir, 'css');
+
+         foreach($scriptList as $script){
+            echo '<script src="'.$this->joinPaths([Config::getConfig('app')->getKey('scripts_directory'), $script]).'"/></script>';
          }
 
 
-         foreach($this->loadFilesFromDirectory($stylesheetsDir, 'css') as $stylesheet){
-            echo '<link rel="stylesheet" href="'.$stylesheet.'"></link>';
+         foreach($stylesheetList as $stylesheet){
+            echo '<link rel="stylesheet" href="'.$this->joinPaths([Config::getConfig('app')->getKey('stylesheets_directory'), $stylesheet]).'"></link>';
          }
 
          $template = $this->loadTemplate(Config::getConfig('app'), $template);
@@ -68,10 +73,29 @@ use Smarty;
      */
     public function getViewAsString(string $template, array $parameters = null) 
     {
-     
-    
+        $fullTemplate= '';
+        
+        $scriptsDir = self::joinPaths([Config::getConfig('app')->getKey('root_directory'), Config::getConfig('app')->getKey('scripts_directory')]);
+        $stylesheetsDir = self::joinPaths([Config::getConfig('app')->getKey('root_directory'), Config::getConfig('app')->getKey('stylesheets_directory')]);
+
+        $scriptList = $this->loadFilesFromDirectory($scriptsDir, 'js');
+        $stylesheetList = $this->loadFilesFromDirectory($stylesheetsDir, 'css');
+
+        foreach($scriptList as $script){
+           $fullTemplate.= '<script src="'.$this->joinPaths([Config::getConfig('app')->getKey('scripts_directory'), $script]).'"/></script>';
+        }
+
+
+        foreach($stylesheetList as $stylesheet){
+           $fullTemplate.= '<link rel="stylesheet" href="'.$this->joinPaths([Config::getConfig('app')->getKey('stylesheets_directory'), $stylesheet]).'"></link>';
+        }
+
          $template = $this->loadTemplate(Config::getConfig('app'), $template);
-        return  SmartyRenderer::getRenderer()->getRenderedTemplateString($parameters, $template);
+         $renderedString = SmartyRenderer::getRenderer()->getRenderedTemplateString($parameters, $template);
+
+         $fullTemplate.=$renderedString;
+
+         return $renderedString;
 
     }
 }
