@@ -20,19 +20,20 @@ class Request
     public function __construct()
     {
         $this->request = $_REQUEST;
+        $this->parameters = [...$_GET,...$_POST];
         $this->method = $_SERVER['REQUEST_METHOD'];
         $this->accepts = explode(',', $_SERVER['HTTP_ACCEPT']);
     }
 
     public function hasKey(string $key) :bool 
     {
-        return array_key_exists($key, $this->request);
+        return array_key_exists($key, $this->parameters);
     }
 
     public function getKey(string $key) :mixed
     {
         if ($this->hasKey($key))
-            return $this->request[$key];
+            return $this->parameters[$key];
         return false;
     }
 
@@ -44,6 +45,11 @@ class Request
     public function acceptsJson() :bool 
     {
         return in_array('application/json', $this->accepts) || in_array('*/*', $this->accepts);
+    }
+
+    public function all() :array 
+    {
+        return $this->parameters;
     }
 
     public function only(array $parameters) :array
