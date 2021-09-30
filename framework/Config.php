@@ -24,9 +24,9 @@ class Config
      * @param string $key
      * @return bool
      */
-    public static function hasKey(string $key) :bool
+    public function hasKey(string $key) :bool
     {
-        return array_key_exists($key, self::$config);
+        return array_key_exists($key, $this->config);
     }
 
     /**
@@ -35,15 +35,15 @@ class Config
      * @param string $key
      *
      */
-    public static function getKey(string $key) 
+    public function getKey(string $key) 
     {
-        if(self::hasKey($key))
-            return self::$config[$key];
+        if($this->hasKey($key))
+            return $this->config[$key];
         else return false;
     }
 
-    public static function getAll()  :array
+    public function getAll()  :array
     {
-        return self::$config;
+        return $this->config;
     }
 }

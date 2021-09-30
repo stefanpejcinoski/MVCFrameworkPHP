@@ -15,7 +15,7 @@ class Router
 
     public function __construct()
     {
-        $this->routes = Config::getConfig('route')::getAll();
+        $this->routes = Config::getConfig('routes')->getAll();
     }
     /**
      * Handles the request contained in the provided Request object

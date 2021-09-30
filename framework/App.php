@@ -24,7 +24,7 @@
     public function boot() {
 
         //Check if app is in maintenance mode
-        if($this->appConfig::getKey('maintenance') == 'On')
+        if(Config::getConfig('app')->getKey('maintenance') == 'On')
         {
             //TODO handle maintenance mode 
         }
