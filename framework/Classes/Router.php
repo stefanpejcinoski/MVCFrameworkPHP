@@ -9,7 +9,7 @@ use Framework\Traits\UrlParse;
 */
 class Router 
 {
-    use UrlParse;
+   
 
     protected $routes;
 
@@ -44,7 +44,7 @@ class Router
     
     protected function handleGetRequest(Request $request)
     {
-        $requestPath = $this->getRequestPath();
+        $requestPath = $request->getRequestPath();
         if (array_key_exists($requestPath, $this->routes['get'])){
             if (is_callable($this->routes['get'][$requestPath]['action'])){
                 call_user_func($this->routes['get'][$requestPath]['action'], $request);
@@ -55,7 +55,7 @@ class Router
 
     protected function handlePostRequest(Request $request) 
     {
-        $requestPath = $this->getRequestPath();
+        $requestPath = $request->getRequestPath();
         if (array_key_exists($requestPath, $this->routes['post'])){
             if (is_callable($this->routes['post'][$requestPath]['action'])){
                 call_user_func($this->routes['post'][$requestPath]['action'], $request);
@@ -66,7 +66,7 @@ class Router
 
     protected function handlePutRequest(Request $request)
     {
-        $requestPath = $this->getRequestPath();
+        $requestPath = $request->getRequestPath();
         if (array_key_exists($requestPath, $this->routes['put'])){
             if (is_callable($this->routes['put'][$requestPath]['action'])){
                 call_user_func($this->routes['put'][$requestPath]['action'], $request);
@@ -77,7 +77,7 @@ class Router
 
     protected function handleDeleteRequest(Request $request)
     {
-        $requestPath = $this->getRequestPath();
+        $requestPath = $request->getRequestPath();
         if (array_key_exists($requestPath, $this->routes['delete'])){
             if (is_callable($this->routes['delete'][$requestPath]['action'])){
                 call_user_func($this->routes['delete'][$requestPath]['action'], $request);

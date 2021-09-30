@@ -7,6 +7,8 @@ namespace Framework\Classes;
  */
 class Request 
 {
+
+
     protected $request;
     protected $accepts;
     protected $method;
@@ -58,4 +60,19 @@ class Request
         return $this->accepts;
     }
     
+    public function getFullRequestUrl() :string
+    {
+      
+        return (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+    }
+
+    public function getRequestPath() :string
+    {
+        return parse_url($this->getFullRequestUrl(), PHP_URL_PATH);
+    }
+    public function getHost() :string 
+    {
+        return parse_url($this->getFullRequestUrl(), PHP_URL_HOST);
+    }
+
 }
