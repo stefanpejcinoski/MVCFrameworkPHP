@@ -2,6 +2,8 @@
 
 namespace Framework\Traits;
 
+use Exception;
+
 trait ConfigAccess
 {
     protected function getConfigArray(string $config) :array
@@ -10,6 +12,9 @@ trait ConfigAccess
         $fullPath =dirname(dirname(__DIR__)).'/config/'.$config.'_config.php';
             if(file_exists($fullPath)){
                 $configArray = include($fullPath);
+            }
+            else {
+                throw new Exception("Configuration file not found");
             }
         return $configArray;
     }

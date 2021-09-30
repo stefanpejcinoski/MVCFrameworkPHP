@@ -10,6 +10,11 @@ class Request
     protected $request;
     protected $accepts;
     protected $method;
+
+    /**
+     * Captures an incoming request and saves it in a Request object where it can later be processed using the class methods
+     * 
+     */
     public function __construct()
     {
         $this->request = $_REQUEST;
