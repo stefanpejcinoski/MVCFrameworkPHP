@@ -19,17 +19,22 @@
         return new Validator($rules);
      }
      public function validateRequest(Request $request) {
+         
          foreach ($this->rules as $key=>$keyRules){
             foreach($keyRules as $rule){
+                $valid = false;
                 $searchKey = $rule;
                 if(str_contains($rule, ':')){
                     $searchKey = explode(':', $rule)[0].":x";
                     $callback = Config::getConfig('validator')->getKey($searchKey);
-                    $callback($request, $key, explode(':', $rule)[1]);
+                    $valid = $callback($request, $key, explode(':', $rule)[1]);
                 }
                 else {
                     $callback = Config::getConfig('validator')->getKey($searchKey);
-                    $callback($request, $key); 
+                    $valid = $callback($request, $key); 
+                }
+                if(!$valid){
+                    
                 }
             } 
          }

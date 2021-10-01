@@ -10,6 +10,6 @@ class HomeController extends Controller
 {
     public function index() 
     {
-        view('home', ["appname"=>Config::getConfig('app')->getKey('app_name')]);
+       return view('home', ["appname"=>config('app', 'app_name')]);
     }
 }
