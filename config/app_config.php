@@ -32,5 +32,8 @@ return [
     'maintenance'=>'Off',
 
     /* Set csrf protection on or off (recommended on) */
-    'csrf'=>'On'
+    'csrf'=>'On',
+
+    /* 404 Page not found template name */
+    'page_not_found_template'=>'pagenotfound'
 ];

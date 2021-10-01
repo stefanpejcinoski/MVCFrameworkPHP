@@ -1,7 +1,7 @@
 <?php 
 
 /**
- * Defines methods that wrap the PHP session global variable and add functionality to it
+ * Contains methods that wrap the PHP session global variable and add functionality to it
  */
 
  namespace Framework\Classes;

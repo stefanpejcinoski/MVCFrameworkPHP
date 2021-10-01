@@ -14,18 +14,33 @@ if(!function_exists('csrf')){
 
 if(!function_exists('view')){
     function view(string $template, array $parameters) {
-        View::getView()->display($template, $parameters);
+        return View::getView()->display($template, $parameters);
     }
 }
 
 if(!function_exists('config')){
-    function config(string $name, string $key){
-        Config::getConfig($name)->getKey($key);
+    function config(string $name, string $key = ''){
+        if(strlen($key) > 0)
+            return Config::getConfig($name)->getKey($key);
+        return Config::getConfig($name)->getAll();
     }
 }
 
 if(!function_exists('validate')){
     function validate(Request $request, array $rules){
-        Validator::getValidator($rules)->validateRequest($request);
+      return  Validator::getValidator($rules)->validateRequest($request);
+    }
+}
+
+if(!function_exists('route')){
+    function route(string $name, array $parameters = [])
+    {
+        foreach(config('routes') as $methods) {
+            foreach($methods as $route=>$parameters){
+               if ($parameters['name'] == $name)
+                return $route;
+            }
+        }
+        return false;
     }
 }

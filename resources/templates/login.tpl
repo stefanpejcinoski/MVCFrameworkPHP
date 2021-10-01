@@ -10,12 +10,12 @@
   </button>
   <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
     <div class="navbar-nav">
-      <a class="nav-item nav-link active" href="/">Home <span class="sr-only">(current)</span></a>
+      <a class="nav-item nav-link active" href="{route('home')}">Home <span class="sr-only">(current)</span></a>
     </div>
   </div>
 </nav>
 <div class="container">
-<form method="POST" action="/login">
+<form method="POST" action="{route('loginpost')}">
 {csrf()}
 <div class="form-group">
 <label for="username">Username:</label>

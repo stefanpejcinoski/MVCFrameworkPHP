@@ -16,6 +16,7 @@ class Request
     protected $body;
     protected $parameters;
     protected $cookies;
+    protected $query;
     /**
      * Captures an incoming request and saves it in a Request object where it can later be processed using the class methods
      * 
@@ -28,11 +29,12 @@ class Request
         $this->accepts = explode(',', $this->headers['Accept']);
         $this->body = file_get_contents("php://input");
         $this->parameters = [];
-        $this->parseRequestBody();
-        $this->parseRequestUrl();
+        $this->getQueryParameters();
+        $this->getAllParameters();
+        $this->getCookies();
     }
 
-    protected function parseRequestBody() 
+    protected function getAllParameters() 
     {
         switch ($this->headers['Content-Type']) {
             case "application/json":
@@ -43,16 +45,31 @@ class Request
                 parse_str($this->body, $this->parameters);
                 break;
         }
+        foreach($this->query as $key=>$query)
+        {
+            $this->parameters[$key] = $query;
+        }
     }
 
-    protected function parseRequestUrl() 
+    protected function getQueryParameters() 
     {
         $query = []; 
         parse_str(parse_url($this->getFullRequestUrl(), PHP_URL_QUERY), $query);
-        foreach($query as $key=>$parameter){
-            $this->parameters[$key] = $parameter;
-        }
+        $this->query = $query;
     }
+
+    public function hasCookie(string $key)
+    {
+        return isset($this->cookies[$key]);
+    }
+
+    public function getCookie(string $key)
+    {
+        if ($this->hasCookie($key))
+            return $this->cookies[$key];
+        else return false;
+    }
+
 
     protected function getCookies() 
     {

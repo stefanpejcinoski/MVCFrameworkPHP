@@ -1,12 +1,12 @@
 <?php
 
 /**
- * Defines a basic functionality for returning redirects with data
+ * Contains  basic functionality for returning redirects 
  */
 
  namespace Framework\Classes;
 
  class Redirect 
  {
-     
+
  }

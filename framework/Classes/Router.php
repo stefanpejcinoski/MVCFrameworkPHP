@@ -55,7 +55,7 @@ class Router
             }
         }
             else {
-                View::getView()->display('pagenotfound');
+                View::getView()->display(Config::getConfig('app')->getKey('page_not_found_template'));
                 http_response_code(404);
             }
         }
@@ -68,7 +68,7 @@ class Router
           
         }
         else {
-            View::getView()->display('pagenotfound');
+            View::getView()->display(Config::getConfig('app')->getKey('page_not_found_template'));
             http_response_code(404);
         }
     }

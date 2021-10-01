@@ -3,6 +3,7 @@
 namespace Framework\Classes;
 
 use Framework\Traits\ConfigAccess;
+use InvalidArgumentException;
 
 /** Handles reading all configuration options for the app */
 
@@ -39,7 +40,7 @@ class Config
     {
         if($this->hasKey($key))
             return $this->config[$key];
-        else return false;
+        else throw new InvalidArgumentException('The required key does not exist!');
     }
 
     public function getAll()  :array

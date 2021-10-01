@@ -1,7 +1,7 @@
 <?php
 
 /**
- * A simple data validator for form validation
+ * Contains a simple data validator for form validation
  */
 
  namespace Framework\Classes;
@@ -34,7 +34,7 @@
                     $valid = $callback($request, $key); 
                 }
                 if(!$valid){
-                    
+                        //TODO: handle invalid value
                 }
             } 
          }

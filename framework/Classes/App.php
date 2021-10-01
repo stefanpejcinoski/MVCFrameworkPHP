@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Class defining the application itself. Contains methods responsible for building and running the application 
+ * Class containing the application itself. Contains methods responsible for building and running the application 
  */
 
  namespace Framework\Classes;
