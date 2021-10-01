@@ -25,7 +25,8 @@ use Framework\Classes\Router;
     /* Boots the application, handles the incoming request and terminates */
     public function boot() {
 
-        session_start();
+        //Start a session
+        Session::start();
 
         //Check if app is in maintenance mode
         if(Config::getConfig('app')->getKey('maintenance') == 'On')
