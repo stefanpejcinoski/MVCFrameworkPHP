@@ -6,10 +6,11 @@
 
  namespace Framework\Classes;
  use Framework\Interfaces\TemplateRendering;
- use Framework\Traits\TemplateHelpers;
+use Framework\Interfaces\TemplateRenderingInterface;
+use Framework\Traits\TemplateHelpers;
  use Smarty;
 
- class SmartyRenderer implements TemplateRendering
+ class SmartyRenderer implements TemplateRenderingInterface
  {
     use TemplateHelpers;
 

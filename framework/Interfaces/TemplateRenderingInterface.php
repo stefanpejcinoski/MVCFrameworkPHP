@@ -5,7 +5,7 @@
 
 namespace Framework\Interfaces;
 
-interface TemplateRendering
+interface TemplateRenderingInterface
 {
     public static function getRenderer();
 

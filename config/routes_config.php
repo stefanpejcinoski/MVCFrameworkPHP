@@ -24,7 +24,13 @@ return [
             'action'=>fn($request)=>View::getView()->display('register', ["appname"=>config('app', 'app_name'), "params"=>$request->all()]),
             'name'=>'register',
             'auth'=>false
-        ]
+        ],
+        '/test'=>[
+        'action'=>fn($request)=>View::getView()->display('register', ["appname"=>config('app', 'app_name'), "params"=>$request->all()]),
+        'name'=>'test',
+        'auth'=>true
+    ]
+      
         ],
     'post'=>[
         '/login'=>[

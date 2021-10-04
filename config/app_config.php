@@ -35,5 +35,11 @@ return [
     'csrf'=>'On',
 
     /* 404 Page not found template name */
-    'page_not_found_template'=>'pagenotfound'
+    'page_not_found_template'=>'pagenotfound',
+
+    /* Authentication method, the value is the class used to authenticate the user on every incoming request. If false then no authentication will be done. */
+    'auth'=>false,
+
+    /* Location where unauthorized users are redirected */
+    'redirect_unauthorized'=>'home'
 ];

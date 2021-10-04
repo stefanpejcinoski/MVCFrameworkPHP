@@ -5,6 +5,7 @@ use Framework\Classes\View;
 use Framework\Classes\CSRFProtection;
 use Framework\Classes\Config;
 use Framework\Classes\Validator;
+use Framework\Classes\Router;
 
 if(!function_exists('csrf')){
     function csrf() {
@@ -35,12 +36,6 @@ if(!function_exists('validate')){
 if(!function_exists('route')){
     function route(string $name, array $parameters = [])
     {
-        foreach(config('routes') as $methods) {
-            foreach($methods as $route=>$parameters){
-               if ($parameters['name'] == $name)
-                return $route;
-            }
-        }
-        return false;
+        return Router::getRouter()->getRouteByName($name, $parameters);
     }
 }

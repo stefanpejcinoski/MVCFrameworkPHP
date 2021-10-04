@@ -2,7 +2,7 @@
 
 namespace Framework\Classes;
 
-use Framework\Interfaces\TemplateRendering;
+use Framework\Interfaces\TemplateRenderingInterface;
 use Framework\Traits\FileOperations;
 use Framework\Traits\TemplateHelpers;
 
@@ -18,7 +18,7 @@ use Framework\Traits\TemplateHelpers;
     use FileOperations;
 
     protected static View $instance;
-    protected TemplateRendering $engineInstance;
+    protected TemplateRenderingInterface $engineInstance;
     public function __construct()
     {
         $this->engineInstance = Config::getConfig('app')->getKey('template_engine')::getRenderer();

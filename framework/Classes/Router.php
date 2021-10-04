@@ -2,7 +2,7 @@
 
 namespace Framework\Classes;
 
-use Framework\Traits\UrlParse;
+use Framework\Classes\Authentication;
 
 /*
 *Provides a simple router to handle all incoming requests to the application
@@ -41,7 +41,12 @@ class Router
                 break;
         }
     }
-    
+  
+    public static function getRouter() :Router 
+    {
+        return new Router();
+    }
+
     protected function handleGetRequest(Request $request)
     {
         $requestPath = $request->getRequestPath();
@@ -50,7 +55,11 @@ class Router
             $url_elements = $request->getPathElements();
             $url = '/'.$url_elements['before'].'/{}'.($url_elements['after']!=''?'/'.$url_elements['after']:'');
             if(array_key_exists($url, $this->routes['get'])){
+
               if (is_callable($this->routes['get'][$url]['action'])){
+                if($this->routes['get'][$url]['auth']){
+                    Authentication::makeAuth()->authenticateRequest($request);
+                }
                 call_user_func($this->routes['get'][$url]['action'], $request, $url_elements['id']);
             }
         }
@@ -63,6 +72,9 @@ class Router
         else {
         if (array_key_exists($requestPath, $this->routes['get'])){
             if (is_callable($this->routes['get'][$requestPath]['action'])){
+                if($this->routes['get'][$requestPath]['auth']){
+                    Authentication::makeAuth()->authenticateRequest($request);
+                }
                 call_user_func($this->routes['get'][$requestPath]['action'], $request);
             }
           
@@ -162,4 +174,25 @@ class Router
         }
     }
 }
+
+ public function getRouteByName (string $name, array $queryParameters = []) :string
+ {
+     $newRoute = '';
+    foreach($this->routes as $methods) {
+        foreach($methods as $route=>$parameters){
+           if ($parameters['name'] == $name){
+            $newRoute = $route;
+            break;
+           }
+        }
+    }
+    if (!empty($queryParameters)) 
+    {
+        $newRoute.='?';
+        foreach ($queryParameters as $parameterName=>$queryParameter) {
+            $newRoute.=$parameterName.'='.$queryParameter;
+        }
+    }
+    return $newRoute;
+ }
 }
