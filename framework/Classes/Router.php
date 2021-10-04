@@ -3,6 +3,7 @@
 namespace Framework\Classes;
 
 use Framework\Classes\Authentication;
+use InvalidArgumentException;
 
 /*
 *Provides a simple router to handle all incoming requests to the application
@@ -47,22 +48,34 @@ class Router
         return new Router();
     }
 
+    protected function callController($controller, Request $request){
+        if(is_array($controller) && (class_exists($controller[0]) && method_exists($controller[0], $controller[1]))){
+            $controllerInstance = new $controller[0];
+            call_user_func(array($controllerInstance, $controller[1]), $request);
+        }
+        else
+            if (is_callable($controller))
+                $controller($request);
+            else   throw new InvalidArgumentException("Provided controller doesn't exist");
+        exit();
+    }
+
     protected function handleGetRequest(Request $request)
     {
         $requestPath = $request->getRequestPath();
-       
+    
         if($request->hasId()){
             $url_elements = $request->getPathElements();
             $url = '/'.$url_elements['before'].'/{}'.($url_elements['after']!=''?'/'.$url_elements['after']:'');
             if(array_key_exists($url, $this->routes['get'])){
 
-              if (is_callable($this->routes['get'][$url]['action'])){
+                Session::setKey('current_route', $this->routes['get'][$url]['name']);
                 if($this->routes['get'][$url]['auth']){
                     Authentication::makeAuth()->authenticateRequest($request);
                 }
-                call_user_func($this->routes['get'][$url]['action'], $request, $url_elements['id']);
+                $this->callController($this->routes['get'][$url]['action'], $request);
             }
-        }
+        
             else {
                 View::getView()->display(Config::getConfig('app')->getKey('page_not_found_template'));
                 http_response_code(404);
@@ -71,12 +84,13 @@ class Router
           
         else {
         if (array_key_exists($requestPath, $this->routes['get'])){
-            if (is_callable($this->routes['get'][$requestPath]['action'])){
+            
+            Session::setKey('current_route', $this->routes['get'][$requestPath]['name']);
                 if($this->routes['get'][$requestPath]['auth']){
                     Authentication::makeAuth()->authenticateRequest($request);
                 }
-                call_user_func($this->routes['get'][$requestPath]['action'], $request);
-            }
+                $this->callController($this->routes['get'][$requestPath]['action'], $request);
+
           
         }
         else {
@@ -93,9 +107,11 @@ class Router
             $url_elements = $request->getPathElements();
             $url = '/'.$url_elements['before'].'/{}'.($url_elements['after']!=''?'/'.$url_elements['after']:'');
             if(array_key_exists($url, $this->routes['post'])){
-              if (is_callable($this->routes['post'][$url]['action'])){
-                call_user_func($this->routes['post'][$url]['action'], $request, $url_elements['id']);
-            }
+              
+                if($this->routes['post'][$url]['auth']){
+                    Authentication::makeAuth()->authenticateRequest($request);
+                }
+                $this->callController($this->routes['post'][$url]['action'], $request);
         }
             else {
                 http_response_code(404);
@@ -104,9 +120,11 @@ class Router
           
         else {
         if (array_key_exists($requestPath, $this->routes['post'])){
-            if (is_callable($this->routes['post'][$requestPath]['action'])){
-                call_user_func($this->routes['post'][$requestPath]['action'], $request);
+
+            if($this->routes['post'][$requestPath]['auth']){
+                Authentication::makeAuth()->authenticateRequest($request);
             }
+            $this->callController($this->routes['post'][$requestPath]['action'], $request);
           
         }
         else {
@@ -123,9 +141,12 @@ class Router
             $url_elements = $request->getPathElements();
             $url = '/'.$url_elements['before'].'/{}'.($url_elements['after']!=''?'/'.$url_elements['after']:'');
             if(array_key_exists($url, $this->routes['put'])){
-              if (is_callable($this->routes['put'][$url]['action'])){
-                call_user_func($this->routes['put'][$url]['action'], $request, $url_elements['id']);
-            }
+              
+                if($this->routes['put'][$url]['auth']){
+                    Authentication::makeAuth()->authenticateRequest($request);
+                }
+                $this->callController($this->routes['put'][$url]['action'], $request);
+
         }
             else {
                 http_response_code(404);
@@ -134,9 +155,11 @@ class Router
           
         else {
         if (array_key_exists($requestPath, $this->routes['put'])){
-            if (is_callable($this->routes['put'][$requestPath]['action'])){
-                call_user_func($this->routes['put'][$requestPath]['action'], $request);
+            
+            if($this->routes['put'][$requestPath]['auth']){
+                Authentication::makeAuth()->authenticateRequest($request);
             }
+            $this->callController($this->routes['put'][$requestPath]['action'], $request);
           
         }
         else {
@@ -177,14 +200,18 @@ class Router
 
  public function getRouteByName (string $name, array $queryParameters = []) :string
  {
-     $newRoute = '';
-    foreach($this->routes as $methods) {
-        foreach($methods as $route=>$parameters){
-           if ($parameters['name'] == $name){
-            $newRoute = $route;
-            break;
-           }
-        }
+     $newRoute = false;
+    $pages = $this->routes['get'];
+    foreach($pages as $link=>$page){
+        if($page['name'] == $name)
+            {
+                $newRoute = $link;
+                break;
+            }
+    }
+   
+    if(!$newRoute){
+        throw new InvalidArgumentException("Route not found");
     }
     if (!empty($queryParameters)) 
     {

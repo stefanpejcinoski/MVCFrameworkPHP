@@ -6,6 +6,7 @@ use Framework\Classes\CSRFProtection;
 use Framework\Classes\Config;
 use Framework\Classes\Validator;
 use Framework\Classes\Router;
+use Framework\Classes\Session;
 
 if(!function_exists('csrf')){
     function csrf() {
@@ -14,7 +15,7 @@ if(!function_exists('csrf')){
 }
 
 if(!function_exists('view')){
-    function view(string $template, array $parameters) {
+    function view(string $template, array $parameters = []) {
         return View::getView()->display($template, $parameters);
     }
 }
@@ -37,5 +38,28 @@ if(!function_exists('route')){
     function route(string $name, array $parameters = [])
     {
         return Router::getRouter()->getRouteByName($name, $parameters);
+    }
+}
+
+if (!function_exists('errors')){
+    function errors(){
+        if (Session::hasKey('errors')){
+            $errors = Session::getKey('errors');
+            $errorString = '';
+            foreach($errors as $error){
+                $errorString.=$error."<br>";
+            }
+            Session::clearKey('errors');
+            return $errorString;
+        }
+    }
+}
+
+if(!function_exists('old')){
+    function old(string $field){
+        if (Session::hasKey('old')){
+            $old = Session::getKey('old');
+            return $old[$field];
+        }
     }
 }

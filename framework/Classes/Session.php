@@ -25,7 +25,19 @@
      {
          return $_SESSION;
      }
+     //Append an item to the given session key
+     public static function append(string $key, $val)
+     {
+         if(!isset($_SESSION[$key]))
+            $_SESSION[$key][0] = $val;
+         else
+            array_push($_SESSION[$key], $val); 
+     }
 
+     public static function clearKey(string $key)
+     {
+       unset($_SESSION[$key]);
+     }
      //Check if session has key
      public static function hasKey(string $key) :bool
      {

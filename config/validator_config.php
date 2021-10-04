@@ -12,7 +12,11 @@
 use Framework\Classes\Request;
 
 return [
-     'min:x'=>fn(Request $request, $key,  int $min)=>(strlen($request->getKey($key))>=$min),
-     'required'=>fn(Request $request, $key)=>($request->hasKey($key)),
-     'max:x'=>fn(Request $request, $key,  int $max)=>(strlen($request->getKey($key))<$max)
+     'min:x'=>
+     ['rule'=>fn(Request $request, $key,  int $min)=>(strlen($request->getKey($key))>=$min),
+        'message'=>'Must be min * characters long'],
+     'required'=>['rule'=>fn(Request $request, $key)=>($request->hasKey($key)),
+                    'message'=>'is required'],
+     'max:x'=>['rule'=>fn(Request $request, $key,  int $max)=>(strlen($request->getKey($key))<$max),
+                'message'=>'must be * characters long']
  ];

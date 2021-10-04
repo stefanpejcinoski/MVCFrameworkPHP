@@ -4,6 +4,8 @@
  *  All routes must be defined as a key value pair where the key is the target url and the value is an array consisting of,
  * an action the url will execute, a name that can be used to look up the url with the route() helper and an auth value that determines
  * if the route is acessable by logged in users only or by everyone*/
+
+use Controllers\AuthController;
 use Framework\Classes\View;
 use Framework\Classes\Config;
 use Controllers\HomeController;
@@ -16,12 +18,12 @@ return [
             'auth'=>false
         ],
         '/login'=>[
-            'action'=>fn($request)=>View::getView()->display('login', ['appname'=>config('app', 'app_name'), "params"=>$request->all()]),
+            'action'=>[AuthController::class, 'loginView'],
             'name'=>'login',
             'auth'=>false
         ],
         '/register'=>[
-            'action'=>fn($request)=>View::getView()->display('register', ["appname"=>config('app', 'app_name'), "params"=>$request->all()]),
+            'action'=>[AuthController::class, 'registerView'],
             'name'=>'register',
             'auth'=>false
         ],
@@ -34,8 +36,12 @@ return [
         ],
     'post'=>[
         '/login'=>[
-            'action'=>fn($request)=>die(var_dump($request->all())),
-            'name'=>'loginpost'
+            'action'=>[AuthController::class, 'login'],
+            'name'=>'login'
+        ],
+        '/register'=>[
+            'action'=>[AuthController::class, 'register'],
+            'name'=>'register'
         ]
         ],
     'put'=>[

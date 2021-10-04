@@ -41,5 +41,9 @@ return [
     'auth'=>false,
 
     /* Location where unauthorized users are redirected */
-    'redirect_unauthorized'=>'home'
+    'redirect_unauthorized'=>'home',
+
+    /* Algorithm used for hashing passwords */
+    'password_hashing_algorithm'=>'PASSWORD_BCRYPT'
+
 ];

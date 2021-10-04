@@ -15,7 +15,7 @@
   </div>
 </nav>
 <div class="container">
-<form method="POST" action="{route('loginpost')}">
+<form method="POST" action="{route('login')}">
 {csrf()}
 <div class="form-group">
 <label for="username">Username:</label>

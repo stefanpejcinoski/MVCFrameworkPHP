@@ -1,10 +1,10 @@
 <?php
+namespace Framework\Classes;
 
 use Framework\Interfaces\AuthenticationInterface;
 use Framework\Classes\Config;
 use Framework\Classes\Redirect;
 use Framework\Classes\Request;
-namespace Framework\Classes;
 /**
  * Contains basic functionality for authenticating a request and retrieving the authenticated user, using the method specified in the app config
  */
@@ -24,6 +24,25 @@ namespace Framework\Classes;
             $this->authenticate = true;
         }
      }
+     
+     public function setAuthId(int $id)
+     {
+         Session::setKey('auth_user', $id);
+     }
+
+     public function isAuth()
+     {
+         return Session::hasKey('auth_user');
+     }
+
+     public function getAuthUser(){
+         return Session::getKey('auth_user');
+     }
+
+     public function clearAuth()
+     {
+         Session::clearKey('auth_user');
+     }
 
      public static function makeAuth() :Authentication
      {
@@ -35,15 +54,12 @@ namespace Framework\Classes;
          return $this->authenticate;
      }
 
-     public function authenticateRequest(Request $request) :bool 
+     public function authenticateRequest(Request $request) 
      {
-        return Redirect::redirectUnauthorized($request);
-         if ($this->authEnabled())
-         {
-         return Redirect::redirectUnauthorized($request);
-        
-        }
-        return true;
+        if($this->isAuth())
+            return true;
+        else
+            return Redirect::redirectUnauthorized($request);
     }
     
  }

@@ -28,13 +28,22 @@ class Request
         $this->method = $_SERVER['REQUEST_METHOD'];
         $this->accepts = explode(',', $this->headers['Accept']);
         $this->body = file_get_contents("php://input");
+
         $this->parameters = [];
         $this->getQueryParameters();
-        $this->getAllParameters();
+        if($this->method != 'GET')
+        {
+            $this->getBodyParameters();
+            $this->getQueryParameters();
+        }
+        else
+            $this->getQueryParameters();
+    
         $this->getCookies();
+        $this->parameters = array_merge($this->parameters, $this->query);
     }
 
-    protected function getAllParameters() 
+    protected function getBodyParameters() 
     {
         switch ($this->headers['Content-Type']) {
             case "application/json":
@@ -44,10 +53,6 @@ class Request
             
                 parse_str($this->body, $this->parameters);
                 break;
-        }
-        foreach($this->query as $key=>$query)
-        {
-            $this->parameters[$key] = $query;
         }
     }
 
@@ -70,10 +75,14 @@ class Request
         else return false;
     }
 
-
+    protected function hasCookies()
+    {
+        return isset($this->headers['Cookie']);
+    }
     protected function getCookies() 
     {
-        $this->cookies = explode(';', $this->headers['Cookie']);
+        if($this->hasCookies())
+            $this->cookies = explode(';', $this->headers['Cookie']);
     }
 
     public function isFormData() :bool 

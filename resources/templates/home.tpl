@@ -17,6 +17,7 @@
   </div>
 </nav>
 <div class="container">
+
 <div class="form-group">
 <label for="select_user">Select user type</label>
 <select class="form-select" id="select_user" aria-label="Default select example">
@@ -28,6 +29,9 @@
     <input class="form-control mr-sm-2" type="search" id="user_search" placeholder="Search" aria-label="Search">
     <button class="btn btn-dark my-2 my-sm-0" type="submit">Search</button>
   </div>
+  <div class="d-block text-danger" id="errors">
+{errors()}
+</div>
 </div>
 </body>
 </html>

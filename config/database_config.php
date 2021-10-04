@@ -11,7 +11,10 @@ return [
     'connection1'=>[
         'driver'=>'mysql',
         'db_host'=>'localhost',
-        'db_name'=>'database',
-        'db_password'=>'pass'
+        'db_port'=>3306,
+        'db_name'=>'testdb',
+        'db_user'=>'test',
+        'db_password'=>'password',
+        'db_charset'=>'utf8mb4'
     ]
 ];
