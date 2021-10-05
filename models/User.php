@@ -32,11 +32,11 @@ use InvalidArgumentException;
         return $results;
      }
 
-     public function createUser(string $username, string $email, string $password, int $type, array $technologies)
+     public function createUser(string $username, string $email, string $password, ?int $type = null, ?int $technology = null, ?int $framework = null)
      {
          $hashed_password = Encryption::hashPassword($password);
-         $query_string = "INSERT INTO users SET username = :username, email = :email, password = :password, type = :type";
-         $query_params = [':username'=>$username, ':password'=>$hashed_password, ':email'=>$email, ':type'=>$type];
+         $query_string = "INSERT INTO users SET username = :username, email = :email, password = :password, type_id = :type, technology_id = :technology, framework_id = :framework";
+         $query_params = [':username'=>$username, ':password'=>$hashed_password, ':email'=>$email, ':type'=>$type, ':technology'=>$technology, ':framework'=>$framework];
          return $this->database->query($query_string)->with($query_params)->run();
      }
 

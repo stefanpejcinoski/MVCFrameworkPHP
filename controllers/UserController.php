@@ -20,13 +20,32 @@ use Models\User;
  {
      public function registerView(Request $request)
      {
-         $user = new User;
-         $types = $user->getTypes();
-        return view('register', ['types'=>$types]);
+         $userModel = new User;
+         $frameworkModel = new Framework;
+         $technologyModel = new Technology;
+         $userTypes = $userModel->getTypes();
+         $frameworks = $frameworkModel->getAll();
+         $technologies = $technologyModel->getAll();
+         $allTypesArray = [];
+         foreach($userTypes as $type){
+             array_push($allTypesArray, ['value'=>json_encode(['type'=>$type['id']]), 'name'=>$type['name']]);
+             foreach($technologies as $technology){
+                 if($type['id'] == $technology['type_id']){
+                     array_push($allTypesArray, ['value'=>json_encode(['type'=>$type['id'], 'technology'=>$technology['id']]), 'name'=>$technology['name']]);
+                 }
+                 foreach($frameworks as $framework){
+                     if($type['id'] == $technology['type_id']  && $technology['id'] == $framework['technology_id']){
+                         array_push($allTypesArray, ['value'=>json_encode(['type'=>$type['id'], 'technology'=>$technology['id'], 'framework'=>$framework['id']]), 'name'=>$framework['name']]);
+                     }
+                 }
+             }
+         }
+        return view('register', ['types'=>$allTypesArray]);
      } 
      public function loginView(Request $request)
      {
-        return view('login', ['appname'=>config('app', 'app_name')]);
+         $loginForm = viewString('loginform');
+        return view('login', ['appname'=>config('app', 'app_name'), 'login'=>$loginForm]);
      }
 
      public function register(Request $request)
@@ -35,13 +54,15 @@ use Models\User;
              "email"=>["required"],
              "name"=>["required"],
              "password"=>["required"],
-             "password_confirm"=>['required', 'equal:password']
+             "password_confirm"=>['required', 'equal:password'],
+             "user-type"=>['required']
          ];
 
          Validator::getValidator($rules)->validateRequest($request);
-
+         $type = $request->getKey('user-type');
+         $type = json_decode($type, true);
          $user = new User;
-         $status = $user->createUser($request->getKey('name'), $request->getKey('email'), $request->getKey('password'), 1, []);
+         $status = $user->createUser($request->getKey('name'), $request->getKey('email'), $request->getKey('password'), $type['type'], $type['technology'], $type['framework']);
          if(!$status)
             throw new Exception("User query failed");
          Session::append('messages', 'Registration succesful');

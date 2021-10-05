@@ -21,6 +21,12 @@ if(!function_exists('view')){
     }
 }
 
+if(!function_exists('viewString')){
+    function viewString(string $template, array $parameters = []) {
+        return View::getView()->getViewAsString($template, $parameters);
+    }
+}
+
 if(!function_exists('config')){
     function config(string $name, string $key = ''){
         if(strlen($key) > 0)
