@@ -74,15 +74,17 @@ class Request
             return $this->cookies[$key];
         else return false;
     }
-
+    public function getAllCookies()
+    {
+        return $this->cookies;
+    }
     protected function hasCookies()
     {
         return isset($this->headers['Cookie']);
     }
     protected function getCookies() 
     {
-        if($this->hasCookies())
-            $this->cookies = explode(';', $this->headers['Cookie']);
+        $this->cookies = $_COOKIE;
     }
 
     public function isFormData() :bool 

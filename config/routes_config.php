@@ -42,8 +42,11 @@ return [
         '/register'=>[
             'action'=>[UserController::class, 'register'],
             'name'=>'registerpost'
-        ]
-       
+        ],
+       '/search'=>[
+           'action'=>[UserController::class , 'search'],
+           'name'=>'search'
+       ]
         ],
     'put'=>[
         '/test/{}'=>[

@@ -73,10 +73,17 @@ use InvalidArgumentException;
 
     public function getTypes(){
         
-        $result = $this->database->query('select * from types')->fetch();
+        $result = $this->database->query("SELECT * FROM testdb.types")->fetch();
         if(!$result['status'])
             throw new Exception("Types query failed");
         return $result['results'];
     }
 
+    public function getUsersLike(string $like)
+    {
+        $results = $this->database->query("select * from users where name like (%:like%) or email like (%:like%)")->with([':like'=>$like])->fetch();
+        if (!$results['status'])
+            throw new Error("Query failed");
+        return $results;
+    }
 }

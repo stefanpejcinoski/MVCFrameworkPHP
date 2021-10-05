@@ -13,8 +13,8 @@ use Framework\Interfaces\DatabaseConnectionInterface;
 
 {
     protected static PDODatabaseAccess $instance;
-    protected string $query;
-    protected array $preparedParameters;
+    protected ?string $query;
+    protected ?array $preparedParameters;
     protected array $pdo_options;
     protected array $db_options;
     
@@ -64,8 +64,10 @@ use Framework\Interfaces\DatabaseConnectionInterface;
     public function run() :bool
     {
         $stmt = $this->PdoInstance->prepare($this->query);
-        $return = $stmt->execute($this->preparedParameters);
+        $return = $stmt->execute(isset($this->preparedParameters)?$this->preparedParameters:null);
         $stmt = null;
+        $this->preparedParameters = null;
+        $this->query = null;
         return $return;
     }
 
@@ -75,6 +77,8 @@ use Framework\Interfaces\DatabaseConnectionInterface;
         $status = $stmt->execute(isset($this->preparedParameters)?$this->preparedParameters:null);
         $return = $stmt->fetchAll();
         $stmt = null;
+        $this->preparedParameters = null;
+        $this->query = null;
         if(count($return) == 1)
             $return = $return[0];
         return ['status'=>$status, 'results'=>$return];

@@ -44,7 +44,7 @@
 </select>
 </div>
 
-  <button type="submit" class="btn btn-primary">Submit</button>
+  <button type="submit" class="btn btn-light">Submit</button>
 </form>
 <div class="d-block text-danger">
 {errors()}

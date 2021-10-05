@@ -92,9 +92,9 @@ use Models\User;
         {
             Session::append('errors', "Wrong password");
             return Redirect::redirectWithErrors(422);
-        }
-   
-        Session::append('messages', "Welcome ".$userData['results']['username']."!");
+        }  
+
+        Session::append('messages', "Welcome ".$userData['username']."!");
         return Redirect::redirectHome();
      }
 
@@ -106,12 +106,18 @@ use Models\User;
      }
 
      public function search(Request $request) {
+         $user = new User;
         $query_name = $request->getKey('user-name');
         $query_type = $request->getKey('user-type');
         if(!Authentication::getInstance()->isAuthenticated()){
            $query = ['name'=>$query_name, 'type'=>$query_type];
            Cookies::setCookie("query", json_encode($query));
+           return view('results', ['appname'=>config('app', 'app_name')]);
         }
-        return view('results');
+        else{
+            die(var_dump($request->getAllCookies()));
+        }
+
+        
      }
  }

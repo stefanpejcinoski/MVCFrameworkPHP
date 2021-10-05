@@ -17,9 +17,11 @@ class HomeController extends Controller
         if(Authentication::getInstance()->isAuthenticated())
         {
             $userId = Authentication::getInstance()->getAuthenticatedId();
+            
             $userData = $user->getUserById($userId);
         }
+        
         $userTypes = $user->getTypes();
-            return view('home', ["appname"=>config('app', 'app_name'), 'user_data'=>$userData['results'], 'user_types'=>$userTypes]);
+        return view('home', ["appname"=>config('app', 'app_name'), 'user_data'=>$userData['results'], 'user_types'=>$userTypes]);
     }
 }
