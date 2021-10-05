@@ -9,15 +9,7 @@ use InvalidArgumentException;
  */
 
  class User extends Model
- {
-
-  
-
-     public function __construct()
-     {
-        parent::__construct();
-     }
-    
+ {    
 
      public final function getUserById(int $id)
      {
@@ -39,7 +31,7 @@ use InvalidArgumentException;
         return $results;
      }
 
-     public final function createUser(string $username, string $email, string $password)
+     public final function createUser(string $username, string $email, string $password, )
      {
          $hashed_password = Encryption::hashPassword($password);
          $query_string = "INSERT INTO users SET username = :username, email = :email, password = :password";

@@ -63,7 +63,7 @@ use Models\User;
             return Redirect::redirectWithErrors(422);
         }
    
-        Session::append('messages', "Login successful");
+        Session::append('messages', "Welcome ".$userData['results']['username']."!");
         return Redirect::redirectHome();
      }
 
