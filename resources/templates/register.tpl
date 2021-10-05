@@ -18,22 +18,32 @@
 <form method="POST" action="{route('registerpost')}">
 {csrf()}
   <div class="form-group">
-    <label for="exampleInputEmail1">User name</label>
-    <input type="text" class="form-control" id="exampleInputEmail1" name="name" aria-describedby="emailHelp" placeholder="" value="{old('name')}">
+    <label for="username">User name</label>
+    <input type="text" id="username" class="form-control"  name="name"   value="{old('name')}">
   </div>
  
   <div class="form-group">
-    <label for="exampleInputEmail1">Email address</label>
-    <input type="email" class="form-control" id="exampleInputEmail1" name="email" aria-describedby="emailHelp" placeholder="" value="{old('email')}">
+    <label for="email">Email address</label>
+    <input type="email" id="email" class="form-control"  name="email"   value="{old('email')}">
   </div>
   <div class="form-group">
-    <label for="exampleInputPassword1">Password</label>
-    <input type="password" class="form-control" id="exampleInputPassword1" name="password" placeholder="">
+    <label for="password">Password</label>
+    <input type="password" id="password" class="form-control"  name="password">
   </div>
    <div class="form-group">
-    <label for="exampleInputPassword1">Confirm password</label>
-    <input type="password" class="form-control" id="exampleInputPassword1" name="password_confirm" placeholder="">
+    <label for="passwordconfirm">Confirm password</label>
+    <input type="password" id="passwordconfirm" class="form-control"  name="password_confirm">
   </div>
+
+   <div class="form-group">
+   <label for="typeselect">Select user type</label>
+  <select class="form-select form-select-lg" id="typeselect" name="user-type" required>
+  {foreach from=$types  item=type}
+  <option value="{$type['id']}">{$type['type']}</option>
+  {/foreach}
+</select>
+</div>
+
   <button type="submit" class="btn btn-primary">Submit</button>
 </form>
 <div class="d-block text-danger">

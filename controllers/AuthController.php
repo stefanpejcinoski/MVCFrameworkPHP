@@ -18,7 +18,9 @@ use Models\User;
  {
      public function registerView(Request $request)
      {
-        return view('register');
+         $user = new User;
+         $types = $user->getTypes();
+        return view('register', ['types'=>$types]);
      } 
      public function loginView(Request $request)
      {
@@ -37,7 +39,7 @@ use Models\User;
          Validator::getValidator($rules)->validateRequest($request);
 
          $user = new User;
-         $status = $user->createUser($request->getKey('name'), $request->getKey('email'), $request->getKey('password'));
+         $status = $user->createUser($request->getKey('name'), $request->getKey('email'), $request->getKey('password'), 1, []);
          if(!$status)
             throw new Exception("User query failed");
          Session::append('messages', 'Registration succesful');

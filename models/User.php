@@ -3,6 +3,7 @@ namespace Models;
 use Framework\Classes\Model;
 use Framework\Classes\Encryption;
 use Error;
+use Exception;
 use InvalidArgumentException;
 /**
  * A model for the application user
@@ -31,11 +32,11 @@ use InvalidArgumentException;
         return $results;
      }
 
-     public function createUser(string $username, string $email, string $password, ?int $type = null, ?array $technologies = null)
+     public function createUser(string $username, string $email, string $password, int $type, array $technologies)
      {
          $hashed_password = Encryption::hashPassword($password);
-         $query_string = "INSERT INTO users SET username = :username, email = :email, password = :password";
-         $query_params = [':username'=>$username, ':password'=>$hashed_password, ':email'=>$email];
+         $query_string = "INSERT INTO users SET username = :username, email = :email, password = :password, type = :type";
+         $query_params = [':username'=>$username, ':password'=>$hashed_password, ':email'=>$email, ':type'=>$type];
          return $this->database->query($query_string)->with($query_params)->run();
      }
 
@@ -68,6 +69,14 @@ use InvalidArgumentException;
         $query_string = "DELETE FROM users WHERE id = :id";
         $query_params = [':id'=>$id];
         return $this->database->query($query_string)->with($query_params)->run();
+    }
+
+    public function getTypes(){
+        
+        $result = $this->database->query('select * from types')->fetch();
+        if(!$result['status'])
+            throw new Exception("Types query failed");
+        return $result['results'];
     }
 
 }
