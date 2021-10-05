@@ -55,7 +55,7 @@ use Framework\Interfaces\DatabaseConnectionInterface;
         return self::$instance;
     }
 
-    public function with(array $parameters)
+    public function with(?array $parameters)
     {
         $this->preparedParameters = $parameters;
         return self::$instance;
