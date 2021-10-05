@@ -11,7 +11,7 @@ use InvalidArgumentException;
  class User extends Model
  {    
 
-     public final function getUserById(int $id)
+     public function getUserById(int $id)
      {
          $query_string = "SELECT username, email FROM users WHERE id = :id";
          $query_params = [':id'=>$id];
@@ -21,7 +21,7 @@ use InvalidArgumentException;
         return $results;
      }
 
-     public final function getUser(string $email)
+     public function getUser(string $email)
      {
          $query_string = "SELECT * FROM users WHERE email = :email";
          $query_params = [':email'=>$email];
@@ -31,7 +31,7 @@ use InvalidArgumentException;
         return $results;
      }
 
-     public final function createUser(string $username, string $email, string $password, )
+     public function createUser(string $username, string $email, string $password, ?int $type = null, ?array $technologies = null)
      {
          $hashed_password = Encryption::hashPassword($password);
          $query_string = "INSERT INTO users SET username = :username, email = :email, password = :password";
@@ -39,7 +39,7 @@ use InvalidArgumentException;
          return $this->database->query($query_string)->with($query_params)->run();
      }
 
-     public final function updateUser(int $id, array $params)
+     public function updateUser(int $id, array $params)
      {
         $query_string = "UPDATE users SET".(isset($params['email'])?" email = :email":"").(isset($params['username'])?" username = :username":"").(isset($params['password'])?" password = :password":"")." WHERE id = :id";
         if(empty($params))
@@ -63,10 +63,11 @@ use InvalidArgumentException;
         }
         return $this->database->query($query_string)->with($query_params)->run();
  }
-    public final function deleteUser(int $id)
+    public function deleteUser(int $id)
     {
         $query_string = "DELETE FROM users WHERE id = :id";
         $query_params = [':id'=>$id];
         return $this->database->query($query_string)->with($query_params)->run();
     }
+
 }

@@ -20,6 +20,6 @@ interface DatabaseConnectionInterface
     /* Run the query */
     public function run() :bool;
 
-    /* Run the query and fetch data from the query */
+    /* Run the query and fetch data from the result */
     public function fetch() :array;
 }
