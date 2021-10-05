@@ -72,7 +72,7 @@ use Framework\Interfaces\DatabaseConnectionInterface;
     public function fetch() :array
     {
         $stmt =$this->PdoInstance->prepare($this->query);
-        $status = $stmt->execute($this->preparedParameters);
+        $status = $stmt->execute(isset($this->preparedParameters)?$this->preparedParameters:null);
         $return = $stmt->fetchAll();
         $stmt = null;
         if(count($return) == 1)
