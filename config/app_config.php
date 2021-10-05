@@ -32,7 +32,7 @@ return [
     'compiled_templates_directory'=>'storage/views',
 
     /* Set maintenance mode for your application */
-    'maintenance'=>'Off',
+    'maintenance'=>'On',
 
     /* Set csrf protection on or off (recommended on) */
     'csrf'=>'On',

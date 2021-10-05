@@ -35,6 +35,7 @@ use Framework\Classes\Router;
         if(Config::getConfig('app')->getKey('maintenance') == 'On')
         {
             //TODO handle maintenance mode 
+            return view('maintenance', ['appname'=>config('app', 'app_name')]);
         }
 
         //Capture the incoming request

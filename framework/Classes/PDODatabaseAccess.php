@@ -61,7 +61,7 @@ use Framework\Interfaces\DatabaseConnectionInterface;
         return self::$instance;
     }
 
-    public function run()
+    public function run() :bool
     {
         $stmt = $this->PdoInstance->prepare($this->query);
         $return = $stmt->execute($this->preparedParameters);
@@ -69,7 +69,7 @@ use Framework\Interfaces\DatabaseConnectionInterface;
         return $return;
     }
 
-    public function fetch()
+    public function fetch() :array
     {
         $stmt =$this->PdoInstance->prepare($this->query);
         $status = $stmt->execute($this->preparedParameters);
