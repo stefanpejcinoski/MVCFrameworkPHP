@@ -59,7 +59,7 @@ use Models\User;
              "user-type"=>['required']
          ];
 
-         Validator::getValidator($rules)->validateRequest($request);
+         Validator::getInstance($rules)->validateRequest($request);
          $type = $request->getKey('user-type');
          $type = json_decode($type, true);
          $user = new User;
@@ -77,7 +77,7 @@ use Models\User;
             "password"=>["required"],
         ];
 
-        Validator::getValidator($rules)->validateRequest($request);
+        Validator::getInstance($rules)->validateRequest($request);
       
         $user = new User;
         $userDataQuery = $user->getUser($request->getKey('email'));
@@ -93,7 +93,8 @@ use Models\User;
             Session::append('errors', "Wrong password");
             return Redirect::redirectWithErrors(422);
         }  
-
+        if($request->hasCookie('query'))
+            $this->search($request);
         Session::append('messages', "Welcome ".$userData['username']."!");
         return Redirect::redirectHome();
      }
@@ -115,7 +116,18 @@ use Models\User;
            return view('results', ['appname'=>config('app', 'app_name')]);
         }
         else{
-            die(var_dump($request->getAllCookies()));
+            if($query = Cookies::readCookieFromRequest($request, 'query')){
+                $data = json_decode($query, true);
+                $query_name = $data['name'];
+                $query_type = $data['type'];
+            }
+            Cookies::clearCookie('query');
+            $results = $user->getUsersLikeWithType($query_name, $query_type);
+            if(!$results['status'])
+                throw new Exception("Users query failed");
+            
+            die(var_dump($results));
+
         }
 
         

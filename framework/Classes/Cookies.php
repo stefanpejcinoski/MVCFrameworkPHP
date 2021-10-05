@@ -15,18 +15,28 @@
      * Read an encrypted cookie from the incoming request. Returns the cookie on success or false on failure
      *
      * @param Request $request The request object
-     * @param string $cookie The name of the cookie 
+     * @param string $name The name of the cookie 
      * 
      * Returns the cookie on success or false on failure
      */
-    public static function readCookieFromRequest(Request $request, string $cookie)
+    public static function readCookieFromRequest(Request $request, string $name)
     {
-        if($cookieString = $request->getCookie($cookie))
+        if($cookieString = $request->getCookie($name))
             return Encryption::getInstance()->decryptString($cookieString);
         else return false;
     }
-
-        
+    
+    /**
+     * Removes the given cookie
+     *
+     * @param string $name cookie name
+     *
+     * @return void
+     */
+    public static function clearCookie(string $name)
+    {
+        return setcookie($name, null, time()-3600);
+    }
     /**
      * Set an encrypted cookie
      *

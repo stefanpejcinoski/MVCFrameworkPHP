@@ -37,7 +37,7 @@ if(!function_exists('config')){
 
 if(!function_exists('validate')){
     function validate(Request $request, array $rules){
-      return  Validator::getValidator($rules)->validateRequest($request);
+      return  Validator::getInstance($rules)->validateRequest($request);
     }
 }
 

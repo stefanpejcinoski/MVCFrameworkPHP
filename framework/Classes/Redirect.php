@@ -24,7 +24,7 @@ use Framework\Classes\Request;
         header('Location: '.$previousRoute);
         exit();
     }
-    
+
     public static function redirectBack()
     {
         $previousRoute = Session::getKey('current_route');

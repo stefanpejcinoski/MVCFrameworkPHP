@@ -17,7 +17,7 @@ class Validator
      {
          $this->rules = $rules;
      }
-     public static function getValidator($rules) {
+     public static function getInstance($rules) {
         return new Validator($rules);
      }
      public function validateRequest(Request $request) {

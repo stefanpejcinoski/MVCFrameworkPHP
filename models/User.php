@@ -79,9 +79,9 @@ use InvalidArgumentException;
         return $result['results'];
     }
 
-    public function getUsersLike(string $like)
+    public function getUsersLikeWithType(string $like, int $type)
     {
-        $results = $this->database->query("select * from users where name like (%:like%) or email like (%:like%)")->with([':like'=>$like])->fetch();
+        $results = $this->database->query("select username, email, type_id, technology_id, framework_id from users where (username like '%".$like."%' or email like '%".$like."%') and type_id = ".$type)->fetch();
         if (!$results['status'])
             throw new Error("Query failed");
         return $results;

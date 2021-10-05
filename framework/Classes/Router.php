@@ -69,7 +69,7 @@ class Router
             $url = '/'.$url_elements['before'].'/{}'.($url_elements['after']!=''?'/'.$url_elements['after']:'');
             if(array_key_exists($url, $routes)){
 
-                Session::setKey('current_route', $routes[$url]['name']);
+                Session::setKey('current_route', $url);
                 if($this->routes['get'][$url]['auth']){
                     Authentication::getInstance()->authenticateRequest($request);
                 }
@@ -85,7 +85,7 @@ class Router
         else {
         if (array_key_exists($requestPath, $routes)){
             
-            Session::setKey('current_route', $routes[$requestPath]['name']);
+            Session::setKey('current_route', $requestPath);
                 if($routes[$requestPath]['auth']){
                     Authentication::getInstance()->authenticateRequest($request);
                 }
