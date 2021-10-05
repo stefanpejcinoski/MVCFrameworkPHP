@@ -125,8 +125,16 @@ use Models\User;
             $results = $user->getUsersLikeWithType($query_name, $query_type);
             if(!$results['status'])
                 throw new Exception("Users query failed");
-            
-            die(var_dump($results));
+            $return = [];
+            $userModel = new User;
+            $frameworkModel = new Framework;
+            $technologyModel = new Technology;
+            $userTypes = $userModel->getTypes();
+            $frameworks = $frameworkModel->getAll();
+            $technologies = $technologyModel->getAll();
+            foreach($results['results'] as $user){
+
+            }
 
         }
 
