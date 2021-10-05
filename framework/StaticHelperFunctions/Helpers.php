@@ -17,13 +17,13 @@ if(!function_exists('csrf')){
 
 if(!function_exists('view')){
     function view(string $template, array $parameters = []) {
-        return View::getView()->display($template, $parameters);
+        return View::getInstance()->display($template, $parameters);
     }
 }
 
 if(!function_exists('viewString')){
     function viewString(string $template, array $parameters = []) {
-        return View::getView()->getViewAsString($template, $parameters);
+        return View::getInstance()->getViewAsString($template, $parameters);
     }
 }
 
@@ -99,6 +99,6 @@ if(!function_exists('exception_pretty_print')){
 
 if(!function_exists('auth')){
     function auth(){
-        return Authentication::makeAuth()->isAuthenticated();
+        return Authentication::getInstance()->isAuthenticated();
     }
 }

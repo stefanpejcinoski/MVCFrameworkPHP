@@ -28,13 +28,15 @@
 </div>
 <div class="form-group">
 <label for="select_user">Select user type</label>
-<select class="form-select" id="select_user" aria-label="Default select example">
-  <option selected>Open this select menu</option>
+<select class="form-select" id="select_user" name="user-type" aria-label="Default select example">
+  {foreach from=$user_types item=type}
+  <option value={$type['id']}>{$type['name']}</option>
+  {/foreach}
 </select>
 </div>
 <div class="form-group">
 <label for="user_search">Search user</label>
-    <input class="form-control mr-sm-2" type="search" id="user_search" placeholder="Search" aria-label="Search">
+    <input class="form-control mr-sm-2" type="search" id="user_search" name="user-name" placeholder="Search" aria-label="Search">
     <button class="btn btn-dark my-2 my-sm-0" type="submit">Search</button>
   </div>
   <div class="d-block text-danger" id="errors">

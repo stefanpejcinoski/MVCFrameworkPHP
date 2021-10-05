@@ -44,8 +44,7 @@ use Framework\Classes\Router;
         //If CSRF protection is enabled and request is from a form submit check if CSRF token is present
         if (Config::getConfig('app')->getKey('csrf') == 'On'){
             if (!CSRFProtection::verifyRequest($this->request)){
-               Session::append('errors', "CSRF token mismatch");
-               Redirect::redirectWithErrors(422);
+               throw new Exception("CSRF Token mismatch.");
             }
 
              //If CSRF is enabled generate a new CSRF token to be used later in the app

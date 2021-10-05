@@ -4,6 +4,7 @@ namespace Controllers;
 
 use Exception;
 use Framework\Classes\Authentication;
+use Framework\Classes\Cookies;
 use Framework\Classes\Redirect;
 use Framework\Classes\Request;
 use Framework\Classes\Session;
@@ -82,7 +83,12 @@ use Models\User;
         $userDataQuery = $user->getUser($request->getKey('email'));
 
         $userData = $userDataQuery['results'];
-        if(!Authentication::makeAuth()->authenticateUser($request->getKey('password'), $userData['password'], $userData['id']))
+        if(empty($userData))
+        {
+            Session::append('errors', "User doesn't exist");
+            return Redirect::redirectWithErrors(422); 
+        }
+        if(!Authentication::getInstance()->authenticateUser($request->getKey('password'), $userData['password'], $userData['id']))
         {
             Session::append('errors', "Wrong password");
             return Redirect::redirectWithErrors(422);
@@ -94,9 +100,18 @@ use Models\User;
 
      public function logout (Request $request)
      {
-         Authentication::makeAuth()->revokeAuthentication();
+         Authentication::getInstance()->revokeAuthentication();
          Session::append('messages', "Logged out succesfully");
          Redirect::redirectHome();
      }
 
+     public function search(Request $request) {
+        $query_name = $request->getKey('user-name');
+        $query_type = $request->getKey('user-type');
+        if(!Authentication::getInstance()->isAuthenticated()){
+           $query = ['name'=>$query_name, 'type'=>$query_type];
+           Cookies::setCookie("query", json_encode($query));
+        }
+        return view('results');
+     }
  }

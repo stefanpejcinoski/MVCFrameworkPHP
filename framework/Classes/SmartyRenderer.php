@@ -25,7 +25,7 @@ use Framework\Traits\TemplateHelpers;
        
      }
 
-     public static function getRenderer()
+     public static function getInstance()
      {
          return new SmartyRenderer();
      }

@@ -27,7 +27,7 @@ use Framework\Classes\Request;
         }
      }
     
-    public static function makeAuth()
+    public static function getInstance()
     {
         return new Authentication;
     }

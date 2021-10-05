@@ -21,13 +21,13 @@ use Framework\Traits\TemplateHelpers;
     protected TemplateRenderingInterface $engineInstance;
     public function __construct()
     {
-        $this->engineInstance = Config::getConfig('app')->getKey('template_engine')::getRenderer();
+        $this->engineInstance = Config::getConfig('app')->getKey('template_engine')::getInstance();
     }
 
     /**
      * Returns an instance of the View object allowing one line calls to render a template
      */
-    public static function getView() {
+    public static function getInstance() {
         if(!isset(self::$instance)){
             self::$instance = new View();
         }

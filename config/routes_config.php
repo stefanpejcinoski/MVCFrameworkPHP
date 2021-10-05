@@ -31,13 +31,9 @@ return [
             'action'=>[UserController::class, 'logout'],
             'name'=>'logout'
         ],
-        '/test'=>[
-        'action'=>fn($request)=>View::getView()->display('register', ["appname"=>config('app', 'app_name'), "params"=>$request->all()]),
-        'name'=>'test',
-        'auth'=>true
-    ]
+    ],
       
-        ],
+        
     'post'=>[
         '/login'=>[
             'action'=>[UserController::class, 'login'],

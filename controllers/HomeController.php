@@ -13,12 +13,13 @@ class HomeController extends Controller
 {
     public function index(Request $request) 
     {
-        if(Authentication::makeAuth()->isAuthenticated())
+        $user = new User();
+        if(Authentication::getInstance()->isAuthenticated())
         {
-            $user = new User();
-            $userId = Authentication::makeAuth()->getAuthenticatedId();
+            $userId = Authentication::getInstance()->getAuthenticatedId();
             $userData = $user->getUserById($userId);
         }
-            return view('home', ["appname"=>config('app', 'app_name'), 'user_data'=>$userData['results']]);
+        $userTypes = $user->getTypes();
+            return view('home', ["appname"=>config('app', 'app_name'), 'user_data'=>$userData['results'], 'user_types'=>$userTypes]);
     }
 }

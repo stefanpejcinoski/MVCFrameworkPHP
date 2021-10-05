@@ -71,13 +71,13 @@ class Router
 
                 Session::setKey('current_route', $routes[$url]['name']);
                 if($this->routes['get'][$url]['auth']){
-                    Authentication::makeAuth()->authenticateRequest($request);
+                    Authentication::getInstance()->authenticateRequest($request);
                 }
                 $this->callController($routes[$url]['action'], $request);
             }
         
             else {
-                View::getView()->display(Config::getConfig('app')->getKey('page_not_found_template'));
+                View::getInstance()->display(Config::getConfig('app')->getKey('page_not_found_template'));
                 http_response_code(404);
             }
         }
@@ -87,14 +87,14 @@ class Router
             
             Session::setKey('current_route', $routes[$requestPath]['name']);
                 if($routes[$requestPath]['auth']){
-                    Authentication::makeAuth()->authenticateRequest($request);
+                    Authentication::getInstance()->authenticateRequest($request);
                 }
                 $this->callController($routes[$requestPath]['action'], $request);
 
           
         }
         else {
-            View::getView()->display(Config::getConfig('app')->getKey('page_not_found_template'));
+            View::getInstance()->display(Config::getConfig('app')->getKey('page_not_found_template'));
             http_response_code(404);
         }
     }
@@ -109,7 +109,7 @@ class Router
             if(array_key_exists($url, $routes)){
               
                 if($routes[$url]['auth']){
-                    Authentication::makeAuth()->authenticateRequest($request);
+                    Authentication::getInstance()->authenticateRequest($request);
                 }
                 $this->callController($routes[$url]['action'], $request);
         }
@@ -122,7 +122,7 @@ class Router
         if (array_key_exists($requestPath, $routes)){
 
             if($routes[$requestPath]['auth']){
-                Authentication::makeAuth()->authenticateRequest($request);
+                Authentication::getInstance()->authenticateRequest($request);
             }
             $this->callController($routes[$requestPath]['action'], $request);
           
@@ -143,7 +143,7 @@ class Router
             if(array_key_exists($url, $routes)){
               
                 if($routes[$url]['auth']){
-                    Authentication::makeAuth()->authenticateRequest($request);
+                    Authentication::getInstance()->authenticateRequest($request);
                 }
                 $this->callController($routes[$url]['action'], $request);
 
@@ -157,7 +157,7 @@ class Router
         if (array_key_exists($requestPath, $routes)){
             
             if($routes[$requestPath]['auth']){
-                Authentication::makeAuth()->authenticateRequest($request);
+                Authentication::getInstance()->authenticateRequest($request);
             }
             $this->callController($routes[$requestPath]['action'], $request);
           

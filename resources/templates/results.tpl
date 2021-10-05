@@ -15,7 +15,12 @@
   </div>
 </nav>
 <div class="container">
-if()
+{if !(auth())}
+<h3>Please log in</h3>
+{viewString('loginform')}
+{else}
+
+{/if}
 </div>
 </body>
 </html>

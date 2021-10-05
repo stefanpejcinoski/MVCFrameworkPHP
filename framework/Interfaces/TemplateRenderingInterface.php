@@ -8,7 +8,7 @@ namespace Framework\Interfaces;
 interface TemplateRenderingInterface
 {
     /* Get an instance of the renderer, allows for chaining instantiation and method calls in cases where storing an instance is not required*/
-    public static function getRenderer();
+    public static function getInstance();
 
     /* Get a rendered template html in string format */
     public function getRenderedTemplateString(string $template, array $variables);

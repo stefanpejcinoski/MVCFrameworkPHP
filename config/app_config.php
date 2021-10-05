@@ -46,6 +46,12 @@ return [
     /* Algorithm used for hashing passwords */
     'password_hashing_algorithm'=>'2y',
 
+    /* Algorithm used for 2 way encryption */
+    'encryption_algorithm'=>'aes256',
+
+    /* 2 way encryption cypher */
+    'private_key'=>'@NcRfUjXn2r5u8x/A%D*G-KaPdSgVkYp3s6v9y$B&E(H+MbQeThWmZq4t7w!z%C*',
+
     /* Class for authentication */
     'auth'=>SessionAuthenticator::class
 ];
