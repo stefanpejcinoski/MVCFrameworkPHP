@@ -5,6 +5,7 @@ use Framework\Interfaces\AuthenticationInterface;
 use Framework\Classes\Config;
 use Framework\Classes\Redirect;
 use Framework\Classes\Request;
+
 /**
  * Contains basic functionality for authenticating a request and retrieving the authenticated user, using the method specified in the app config
  */
@@ -16,6 +17,7 @@ use Framework\Classes\Request;
 
      public function __construct()
     {
+        
         if(is_bool(Config::getConfig('app')->getKey('auth'))){
             $this->authenticate = false;
         }

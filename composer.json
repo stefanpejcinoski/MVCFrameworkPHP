@@ -4,7 +4,9 @@
     },
     "autoload": {
         "psr-4": {
-            "Framework\\": "framework",
+            "Framework\\Classes\\": "framework/Classes",
+            "Framework\\Interfaces\\":"framework/Interfaces",
+            "Framework\\Traits\\":"framework/Traits",
             "Controllers\\": "controllers",
             "Models\\": "models",
             "Views\\": "views"

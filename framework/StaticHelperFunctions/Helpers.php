@@ -76,3 +76,16 @@ if (!function_exists('messages')){
         }
     }
 }
+
+if(!function_exists('exception_pretty_print')){
+    function exception_pretty_print($e){
+        echo "<pre>";
+        echo print_r("Exception occured in:".$e->getFile());
+        echo "<br>";
+        echo print_r($e->getMessage());
+        echo "<br>";
+        echo print_r($e->getTraceAsString());
+        echo "</pre>";
+        exit();
+    }
+}

@@ -25,6 +25,9 @@ use Framework\Classes\Router;
     /* Boots the application, handles the incoming request and terminates */
     public function boot() {
 
+        /*Set exception handler*/
+        set_exception_handler("exception_pretty_print");
+        
         //Start a session
         Session::start();
 
@@ -50,19 +53,10 @@ use Framework\Classes\Router;
 
        
 
-        //Handle the captured request
-        try{
+            //Handle the captured request
             $this->router->handleRequest($this->request);
-        }
-        //Pretty print an exception if occurs
-        catch(Exception $e)
-        {
-            echo "<pre>";
-            echo print_r($e->getMessage());
-            echo "<br>";
-            echo print_r($e->getTraceAsString());
-            echo "</pre>";
-        }
+   
+       
     }
 
  }

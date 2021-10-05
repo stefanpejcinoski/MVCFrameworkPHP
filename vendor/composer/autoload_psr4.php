@@ -8,6 +8,8 @@ $baseDir = dirname($vendorDir);
 return array(
     'Views\\' => array($baseDir . '/views'),
     'Models\\' => array($baseDir . '/models'),
-    'Framework\\' => array($baseDir . '/framework'),
+    'Framework\\Traits\\' => array($baseDir . '/framework/Traits'),
+    'Framework\\Interfaces\\' => array($baseDir . '/framework/Interfaces'),
+    'Framework\\Classes\\' => array($baseDir . '/framework/Classes'),
     'Controllers\\' => array($baseDir . '/controllers'),
 );

@@ -27,6 +27,7 @@
 </div>
 <button type="submit">LogIn</button>
 </form>
+{errors()}
 </div>
 </body>
 </html>

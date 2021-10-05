@@ -69,4 +69,15 @@ use Framework\Interfaces\DatabaseConnectionInterface;
         return $return;
     }
 
+    public function fetch()
+    {
+        $stmt =$this->PdoInstance->prepare($this->query);
+        $status = $stmt->execute($this->preparedParameters);
+        $return = $stmt->fetchAll();
+        $stmt = null;
+        if(count($return) == 1)
+            $return = $return[0];
+        return ['status'=>$status, 'results'=>$return];
+    }
+
 }

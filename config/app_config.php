@@ -2,7 +2,7 @@
 /*This file contains configuration options for the application itself
 here you can set debug messages on or off and set the app name */
 
-use Framework\Classes\SessionAuthentication;
+use Framework\Classes\SessionAuthenticator;
 use Framework\Classes\SmartyRenderer;
 
 return [
@@ -44,8 +44,8 @@ return [
     'redirect_unauthorized'=>'home',
 
     /* Algorithm used for hashing passwords */
-    'password_hashing_algorithm'=>'PASSWORD_BCRYPT',
+    'password_hashing_algorithm'=>'2y',
 
     /* Class for authentication */
-    'auth'=>SessionAuthentication::class
+    'auth'=>SessionAuthenticator::class
 ];

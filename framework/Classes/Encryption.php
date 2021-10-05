@@ -9,11 +9,11 @@ namespace Framework\Classes;
  {
     public static function hashPassword(string $password) :string
     {
-        return password_hash($password, PASSWORD_DEFAULT);
+        return password_hash($password, config('app', 'password_hashing_algorithm'));
     }   
 
     public static function checkPassword(string $password, string $password_hash) :bool 
     {
-        return self::hashPassword($password) == $password_hash;
+        return password_verify($password, $password_hash);
     }
  } 

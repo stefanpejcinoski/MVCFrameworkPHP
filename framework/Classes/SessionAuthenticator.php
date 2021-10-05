@@ -1,13 +1,13 @@
 <?php 
 namespace Framework\Classes;
+use Framework\Interfaces\AuthenticationInterface;
+
 /**
  * Contains basic session based authentication functionality
  */
 
 
-use Framework\Interfaces\AuthenticationInterface;
-
-class SessionAuthentication implements AuthenticationInterface
+class SessionAuthenticator implements AuthenticationInterface
 {
 
     public function __construct()
@@ -17,7 +17,7 @@ class SessionAuthentication implements AuthenticationInterface
 
     public static function getAuthenticator() :AuthenticationInterface
     {
-        return new SessionAuthentication;
+        return new SessionAuthenticator;
     }
     
     public function isAuthenticated(Request $request) :bool

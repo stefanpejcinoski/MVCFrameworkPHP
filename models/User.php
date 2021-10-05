@@ -1,5 +1,5 @@
 <?php
-namespace Framework\Model;
+namespace Models;
 use Framework\Classes\Model;
 use Framework\Classes\Encryption;
 use Error;
@@ -23,8 +23,8 @@ use InvalidArgumentException;
      {
          $query_string = "SELECT * FROM users WHERE email = :email";
          $query_params = [':email'=>$email];
-         $results = $this->database->query($query_string)->with($query_params)->run();
-         if (!$results)
+         $results = $this->database->query($query_string)->with($query_params)->fetch();
+         if (!$results['status'])
             throw new Error("Query failed");
         return $results;
      }

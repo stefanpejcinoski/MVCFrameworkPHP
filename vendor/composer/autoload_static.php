@@ -21,7 +21,9 @@ class ComposerStaticInit4e26cec8d2ad2c9071ad9d34e3061a09
         ),
         'F' => 
         array (
-            'Framework\\' => 10,
+            'Framework\\Traits\\' => 17,
+            'Framework\\Interfaces\\' => 21,
+            'Framework\\Classes\\' => 18,
         ),
         'C' => 
         array (
@@ -38,9 +40,17 @@ class ComposerStaticInit4e26cec8d2ad2c9071ad9d34e3061a09
         array (
             0 => __DIR__ . '/../..' . '/models',
         ),
-        'Framework\\' => 
+        'Framework\\Traits\\' => 
         array (
-            0 => __DIR__ . '/../..' . '/framework',
+            0 => __DIR__ . '/../..' . '/framework/Traits',
+        ),
+        'Framework\\Interfaces\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/framework/Interfaces',
+        ),
+        'Framework\\Classes\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/framework/Classes',
         ),
         'Controllers\\' => 
         array (

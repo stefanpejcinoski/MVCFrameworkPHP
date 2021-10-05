@@ -7,10 +7,8 @@ use Framework\Classes\Authentication;
 use Framework\Classes\Redirect;
 use Framework\Classes\Request;
 use Framework\Classes\Session;
-use Framework\Model\User;
 use Framework\Classes\Validator;
-use Framework\Classes\StandardUserModel;
-
+use Models\User;
 /**
  * Contains simple login/register/password reset functionality
  */
@@ -54,16 +52,17 @@ use Framework\Classes\StandardUserModel;
         ];
 
         Validator::getValidator($rules)->validateRequest($request);
-
+      
         $user = new User;
-        $userData = $user->getUser($request->getKey('email'));
-        if(!$userData)
-            throw new Exception("User query failed");
+        $userDataQuery = $user->getUser($request->getKey('email'));
+
+        $userData = $userDataQuery['results'];
         if(!Authentication::makeAuth()->authenticateUser($request->getKey('password'), $userData['password'], $userData['id']))
         {
             Session::append('errors', "Wrong password");
             return Redirect::redirectWithErrors(422);
         }
+   
         Session::append('messages', "Login successful");
         return Redirect::redirectHome();
      }
