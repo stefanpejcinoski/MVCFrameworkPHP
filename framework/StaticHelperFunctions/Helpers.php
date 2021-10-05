@@ -1,5 +1,6 @@
-<?php 
+<?php
 
+use Framework\Classes\Authentication;
 use Framework\Classes\Request;
 use Framework\Classes\View;
 use Framework\Classes\CSRFProtection;
@@ -71,7 +72,7 @@ if (!function_exists('messages')){
             foreach($messages as $message){
                 $messageString.=$message."<br>";
             }
-            Session::clearKey('errors');
+            Session::clearKey('messages');
             return $messageString;
         }
     }
@@ -87,5 +88,11 @@ if(!function_exists('exception_pretty_print')){
         echo print_r($e->getTraceAsString());
         echo "</pre>";
         exit();
+    }
+}
+
+if(!function_exists('auth')){
+    function auth(){
+        return Authentication::makeAuth()->isAuthenticated();
     }
 }

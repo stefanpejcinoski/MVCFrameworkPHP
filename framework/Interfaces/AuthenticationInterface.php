@@ -11,7 +11,7 @@ interface AuthenticationInterface
 
     public static function getAuthenticator() :AuthenticationInterface;
     
-    public function isAuthenticated(Request $request) :bool;
+    public function isAuthenticated() :bool;
 
     public function getAuthUserId() :int;
 

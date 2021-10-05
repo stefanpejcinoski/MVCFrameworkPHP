@@ -20,7 +20,7 @@ class SessionAuthenticator implements AuthenticationInterface
         return new SessionAuthenticator;
     }
     
-    public function isAuthenticated(Request $request) :bool
+    public function isAuthenticated() :bool
     {
         return Session::hasKey('auth_user');
     }
@@ -30,13 +30,10 @@ class SessionAuthenticator implements AuthenticationInterface
         return Session::getKey('auth_user');
     }
 
-    public function getAuthUser()
-    {
-        return Session::getKey('auth_user');
-    }
+
     public function setAuth(int $id)
     {
-        Session::setKey('autg_user', $id);    
+        Session::setKey('auth_user', $id);    
     }
 
     public function clearAuth()

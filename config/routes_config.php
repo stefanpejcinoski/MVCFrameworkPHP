@@ -27,6 +27,10 @@ return [
             'name'=>'register',
             'auth'=>false
         ],
+        '/logout'=>[
+            'action'=>[AuthController::class, 'logout'],
+            'name'=>'logout'
+        ],
         '/test'=>[
         'action'=>fn($request)=>View::getView()->display('register', ["appname"=>config('app', 'app_name'), "params"=>$request->all()]),
         'name'=>'test',

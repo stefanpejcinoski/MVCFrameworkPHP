@@ -66,4 +66,11 @@ use Models\User;
         Session::append('messages', "Login successful");
         return Redirect::redirectHome();
      }
+
+     public function logout (Request $request)
+     {
+         Authentication::makeAuth()->revokeAuthentication();
+         Session::append('messages', "Logged out succesfully");
+         Redirect::redirectHome();
+     }
  }

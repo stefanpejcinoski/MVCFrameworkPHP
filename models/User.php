@@ -19,6 +19,16 @@ use InvalidArgumentException;
      }
     
 
+     public final function getUserById(int $id)
+     {
+         $query_string = "SELECT username, email FROM users WHERE id = :id";
+         $query_params = [':id'=>$id];
+         $results = $this->database->query($query_string)->with($query_params)->fetch();
+         if (!$results['status'])
+            throw new Error("Query failed");
+        return $results;
+     }
+
      public final function getUser(string $email)
      {
          $query_string = "SELECT * FROM users WHERE email = :email";

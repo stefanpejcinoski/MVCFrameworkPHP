@@ -47,4 +47,19 @@ use Framework\Classes\Request;
         }
         return false;
     }
+
+    public function isAuthenticated() :bool 
+    {
+        return $this->authenticator->isAuthenticated();
+    }
+
+    public function getAuthenticatedId()
+    {
+        return $this->authenticator->getAuthUserId();
+    }
+
+    public function revokeAuthentication()
+    {
+        $this->authenticator->clearAuth();
+    }
  }

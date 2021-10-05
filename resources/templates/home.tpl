@@ -10,14 +10,22 @@
   </button>
   <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
     <div class="navbar-nav">
+      
+      {if (auth())}
+      <a class="nav-item nav-link mr-auto">{$user_data['username']}</a>
+      <a class="nav-item nav-link mr-auto" href="{route('logout')}">Logout</a>
+      {else}
       <a class="nav-item nav-link active" href="{route('home')}">Home <span class="sr-only">(current)</span></a>
       <a class="nav-item nav-link" href="{route('login')}">Login</a>
       <a class="nav-item nav-link" href="{route('register')}">Register</a>
+      {/if}
     </div>
   </div>
 </nav>
 <div class="container">
+<div class="text-success">
 {messages()}
+</div>
 <div class="form-group">
 <label for="select_user">Select user type</label>
 <select class="form-select" id="select_user" aria-label="Default select example">
@@ -31,7 +39,6 @@
   </div>
   <div class="d-block text-danger" id="errors">
 {errors()}
-
 </div>
 </div>
 </body>
