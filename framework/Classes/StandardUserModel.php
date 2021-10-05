@@ -1,7 +1,9 @@
 <?php
-
-use Framework\Model\Classes\Model;
-
+namespace Framework\Classes;
+use Framework\Classes\Model;
+use Framework\Classes\Encryption;
+use Error;
+use InvalidArgumentException;
 /**
  * A model for the application user, this model is mandatory for any application but can be extended to fit the needs of the project
  */
@@ -13,7 +15,7 @@ use Framework\Model\Classes\Model;
 
      public function __construct()
      {
-         $this->parent->construct();
+        parent::__construct();
      }
     
 
@@ -27,7 +29,7 @@ use Framework\Model\Classes\Model;
         return $results;
      }
 
-     public final function createUser(string $username, string $password, string $email)
+     public final function createUser(string $username, string $email, string $password)
      {
          $hashed_password = Encryption::hashPassword($password);
          $query_string = "INSERT INTO users SET username = :username, email = :email, password = :password";

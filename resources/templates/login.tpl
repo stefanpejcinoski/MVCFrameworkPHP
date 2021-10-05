@@ -15,11 +15,11 @@
   </div>
 </nav>
 <div class="container">
-<form method="POST" action="{route('login')}">
+<form method="POST" action="{route('loginpost')}">
 {csrf()}
 <div class="form-group">
-<label for="username">Username:</label>
-<input type="text" id="username" name="username" required>
+<label for="email">Email:</label>
+<input type="text" id="email" name="email" value='{old('email')}' required>
 </div>
 <div class="form-group">
 <label for="password">Password:</label>

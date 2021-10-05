@@ -12,11 +12,25 @@
 use Framework\Classes\Request;
 
 return [
-     'min:x'=>
-     ['rule'=>fn(Request $request, $key,  int $min)=>(strlen($request->getKey($key))>=$min),
-        'message'=>'Must be min * characters long'],
-     'required'=>['rule'=>fn(Request $request, $key)=>($request->hasKey($key)),
-                    'message'=>'is required'],
-     'max:x'=>['rule'=>fn(Request $request, $key,  int $max)=>(strlen($request->getKey($key))<$max),
-                'message'=>'must be * characters long']
+     'min:x'=>[
+         'rule'=>function(Request $request, $key,  int $min){
+             return (strlen($request->getKey($key))>=$min);
+         },
+         'message'=>'Must be min * characters long'],
+     'required'=>[
+         'rule'=>function(Request $request, $key){
+             return ($request->hasKey($key) && strlen($request->getKey($key))>0);
+         },
+          'message'=>'is required'],
+     'max:x'=>['
+        rule'=>function(Request $request, $key,  int $max){
+            return (strlen($request->getKey($key))<$max);
+        },
+        'message'=>'must be * characters long'],
+    'equal:x'=>[
+        'rule'=>function(Request $request, $key, $key_equal) {
+            return $request->getKey($key) == $request->getKey($key_equal);
+        },
+        'message'=>'must be equal to *'
+    ]
  ];

@@ -5,17 +5,18 @@
  */
 
 namespace Framework\Interfaces;
-
+use Framework\Classes\Request;
 interface AuthenticationInterface 
 {
 
     public static function getAuthenticator() :AuthenticationInterface;
     
-    public function isAuthenticated() :bool;
+    public function isAuthenticated(Request $request) :bool;
 
     public function getAuthUserId() :int;
 
-    public function logIn(array $parameters) :bool;
+    public function setAuth(int $id);
 
-    public function logOut() : bool;
+    public function clearAuth();
+   
 }

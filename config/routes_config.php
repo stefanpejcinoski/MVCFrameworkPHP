@@ -37,11 +37,11 @@ return [
     'post'=>[
         '/login'=>[
             'action'=>[AuthController::class, 'login'],
-            'name'=>'login'
+            'name'=>'loginpost'
         ],
         '/register'=>[
             'action'=>[AuthController::class, 'register'],
-            'name'=>'register'
+            'name'=>'registerpost'
         ]
         ],
     'put'=>[

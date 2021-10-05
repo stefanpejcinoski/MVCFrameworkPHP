@@ -92,7 +92,7 @@ class Request
 
     public function hasKey(string $key) :bool 
     {
-        return array_key_exists($key, $this->parameters);
+        return (array_key_exists($key, $this->parameters) && isset($this->parameters[$key]));
     }
 
     public function getKey(string $key) 

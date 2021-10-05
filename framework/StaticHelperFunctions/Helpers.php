@@ -63,3 +63,16 @@ if(!function_exists('old')){
         }
     }
 }
+if (!function_exists('messages')){
+    function messages(){
+        if (Session::hasKey('messages')){
+            $messages = Session::getKey('messages');
+            $messageString = '';
+            foreach($messages as $message){
+                $messageString.=$message."<br>";
+            }
+            Session::clearKey('errors');
+            return $messageString;
+        }
+    }
+}

@@ -1,8 +1,8 @@
 <?php
 
-namespace Framework\Model\Classes;
+namespace Framework\Classes;
 use Framework\Interfaces\DatabaseConnectionInterface;
-abstract class Model 
+class Model 
 
 {
     protected DatabaseConnectionInterface $database;

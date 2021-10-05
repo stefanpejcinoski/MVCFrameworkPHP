@@ -7,6 +7,7 @@
  namespace Framework\Classes;
 
 use Exception;
+use InvalidArgumentException;
 
 class Validator
  {
@@ -20,30 +21,36 @@ class Validator
         return new Validator($rules);
      }
      public function validateRequest(Request $request) {
-         foreach ($this->rules as $key=>$keyRules){
-            foreach($keyRules as $rule){
-                $valid = false;
-                $searchKey = $rule;
-                if(str_contains($rule, ':')){
-                    $searchKey = explode(':', $rule)[0].":x";
-                    $rule = Config::getConfig('validator')->getKey($searchKey);
-                    $test_val = explode(':', $rule)[1];
-                    if(!$rule['rule']($request, $key, $test_val)){
-                        $message = $key." ".str_replace('*', $test_val, $rule['message']);
-                        Session::append('errors', $message);
-                    }
+         foreach($this->rules as $field=>$rules)
+            foreach($rules as $rule){
+                if (str_contains($rule, ':'))
+                {
+                    $rule_array = explode(':', $rule);
+                    $key = $rule_array[0].":x";
+                    $argument = $rule_array[1];
+                    $validatorFromConfig = config('validator', $key);
+                    if(!is_callable($validatorFromConfig['rule']))
+                        throw new InvalidArgumentException("Validator ".$key." in config is not a callable function");
+                    if(!$validatorFromConfig['rule']($request, $field, $argument))
+                        Session::append('errors', $field." ".str_replace('*', $argument, $validatorFromConfig['message']));
                 }
                 else {
-                    $rule = Config::getConfig('validator')->getKey($searchKey);
-                    if(!$rule['rule']($request, $key)){
-                        $message = $key." ".$rule['message'];
-                        Session::append('errors', $message);
-                    }
+                    $validatorFromConfig = config('validator', $rule);
+                    if(!is_callable($validatorFromConfig['rule']))
+                        throw new InvalidArgumentException("Validator ".$rule." in config is not a callable function");
+                    if(!$validatorFromConfig['rule']($request, $field))
+                        Session::append('errors', $field." ".$validatorFromConfig['message']);
                 }
-            } 
-         }
+            }
          if(Session::hasKey('errors')){
-            Redirect::redirectWithValidationErrors($request);
+            foreach(array_keys($this->rules) as $field)
+            {
+                Session::append('old', $request->getKey($field), $field);
+            }
+            Redirect::redirectWithErrors(422);
+         }
+         else{
+             Session::clearKey('old');
          }
      }
  }

@@ -29,16 +29,16 @@ class Router
         
         switch ($request->method()){
             case 'GET':
-                $this->handleGetRequest($request);
+                $this->handleGetRequest($request, $this->routes['get']);
                 break;
             case 'POST':
-                $this->handlePostRequest($request);
+                $this->handlePostRequest($request, $this->routes['post']);
                 break;
             case 'PUT':
-                $this->handlePutRequest($request);
+                $this->handlePutRequest($request, $this->routes['put']);
                 break;
             case 'DELETE':
-                $this->handleDeleteRequest($request);
+                $this->handleDeleteRequest($request, $this->routes['delete']);
                 break;
         }
     }
@@ -60,20 +60,20 @@ class Router
         exit();
     }
 
-    protected function handleGetRequest(Request $request)
+    protected function handleGetRequest(Request $request, array $routes)
     {
         $requestPath = $request->getRequestPath();
-    
+        $getRoutes = $this->routes['get'];
         if($request->hasId()){
             $url_elements = $request->getPathElements();
             $url = '/'.$url_elements['before'].'/{}'.($url_elements['after']!=''?'/'.$url_elements['after']:'');
-            if(array_key_exists($url, $this->routes['get'])){
+            if(array_key_exists($url, $routes)){
 
-                Session::setKey('current_route', $this->routes['get'][$url]['name']);
+                Session::setKey('current_route', $routes[$url]['name']);
                 if($this->routes['get'][$url]['auth']){
                     Authentication::makeAuth()->authenticateRequest($request);
                 }
-                $this->callController($this->routes['get'][$url]['action'], $request);
+                $this->callController($routes[$url]['action'], $request);
             }
         
             else {
@@ -83,13 +83,13 @@ class Router
         }
           
         else {
-        if (array_key_exists($requestPath, $this->routes['get'])){
+        if (array_key_exists($requestPath, $routes)){
             
-            Session::setKey('current_route', $this->routes['get'][$requestPath]['name']);
-                if($this->routes['get'][$requestPath]['auth']){
+            Session::setKey('current_route', $routes[$requestPath]['name']);
+                if($routes[$requestPath]['auth']){
                     Authentication::makeAuth()->authenticateRequest($request);
                 }
-                $this->callController($this->routes['get'][$requestPath]['action'], $request);
+                $this->callController($routes[$requestPath]['action'], $request);
 
           
         }
@@ -100,18 +100,18 @@ class Router
     }
     }
 
-    protected function handlePostRequest(Request $request) 
+    protected function handlePostRequest(Request $request, $routes) 
     {
         $requestPath = $request->getRequestPath();
         if($request->hasId()){
             $url_elements = $request->getPathElements();
             $url = '/'.$url_elements['before'].'/{}'.($url_elements['after']!=''?'/'.$url_elements['after']:'');
-            if(array_key_exists($url, $this->routes['post'])){
+            if(array_key_exists($url, $routes)){
               
-                if($this->routes['post'][$url]['auth']){
+                if($routes[$url]['auth']){
                     Authentication::makeAuth()->authenticateRequest($request);
                 }
-                $this->callController($this->routes['post'][$url]['action'], $request);
+                $this->callController($routes[$url]['action'], $request);
         }
             else {
                 http_response_code(404);
@@ -119,12 +119,12 @@ class Router
         }
           
         else {
-        if (array_key_exists($requestPath, $this->routes['post'])){
+        if (array_key_exists($requestPath, $routes)){
 
-            if($this->routes['post'][$requestPath]['auth']){
+            if($routes[$requestPath]['auth']){
                 Authentication::makeAuth()->authenticateRequest($request);
             }
-            $this->callController($this->routes['post'][$requestPath]['action'], $request);
+            $this->callController($routes[$requestPath]['action'], $request);
           
         }
         else {
@@ -134,18 +134,18 @@ class Router
     
     }
 
-    protected function handlePutRequest(Request $request)
+    protected function handlePutRequest(Request $request, array $routes)
     {
         $requestPath = $request->getRequestPath();
         if($request->hasId()){
             $url_elements = $request->getPathElements();
             $url = '/'.$url_elements['before'].'/{}'.($url_elements['after']!=''?'/'.$url_elements['after']:'');
-            if(array_key_exists($url, $this->routes['put'])){
+            if(array_key_exists($url, $routes)){
               
-                if($this->routes['put'][$url]['auth']){
+                if($routes[$url]['auth']){
                     Authentication::makeAuth()->authenticateRequest($request);
                 }
-                $this->callController($this->routes['put'][$url]['action'], $request);
+                $this->callController($routes[$url]['action'], $request);
 
         }
             else {
@@ -154,12 +154,12 @@ class Router
         }
           
         else {
-        if (array_key_exists($requestPath, $this->routes['put'])){
+        if (array_key_exists($requestPath, $routes)){
             
-            if($this->routes['put'][$requestPath]['auth']){
+            if($routes[$requestPath]['auth']){
                 Authentication::makeAuth()->authenticateRequest($request);
             }
-            $this->callController($this->routes['put'][$requestPath]['action'], $request);
+            $this->callController($routes[$requestPath]['action'], $request);
           
         }
         else {
@@ -169,15 +169,15 @@ class Router
     
     }
 
-    protected function handleDeleteRequest(Request $request)
+    protected function handleDeleteRequest(Request $request, array $routes)
     {
         $requestPath = $request->getRequestPath();
         if($request->hasId()){
             $url_elements = $request->getPathElements();
             $url = '/'.$url_elements['before'].'/{}'.($url_elements['after']!=''?'/'.$url_elements['after']:'');
-            if(array_key_exists($url, $this->routes['delete'])){
-              if (is_callable($this->routes['delete'][$url]['action'])){
-                call_user_func($this->routes['delete'][$url]['action'], $request, $url_elements['id']);
+            if(array_key_exists($url, $routes)){
+              if (is_callable($routes[$url]['action'])){
+                call_user_func($routes[$url]['action'], $request, $url_elements['id']);
             }
         }
             else {
@@ -186,9 +186,9 @@ class Router
         }
           
         else {
-        if (array_key_exists($requestPath, $this->routes['delete'])){
-            if (is_callable($this->routes['delete'][$requestPath]['action'])){
-                call_user_func($this->routes['delete'][$requestPath]['action'], $request);
+        if (array_key_exists($requestPath, $routes)){
+            if (is_callable($routes[$requestPath]['action'])){
+                call_user_func($routes[$requestPath]['action'], $request);
             }
           
         }
@@ -201,14 +201,14 @@ class Router
  public function getRouteByName (string $name, array $queryParameters = []) :string
  {
      $newRoute = false;
-    $pages = $this->routes['get'];
-    foreach($pages as $link=>$page){
-        if($page['name'] == $name)
-            {
-                $newRoute = $link;
-                break;
-            }
-    }
+   foreach($this->routes as $method)
+        foreach($method as $link=>$page){
+            if($page['name'] == $name)
+                {
+                    $newRoute = $link;
+                    break;
+                }
+        }
    
     if(!$newRoute){
         throw new InvalidArgumentException("Route not found");

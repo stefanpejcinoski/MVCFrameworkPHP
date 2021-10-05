@@ -17,7 +17,7 @@
   </div>
 </nav>
 <div class="container">
-
+{messages()}
 <div class="form-group">
 <label for="select_user">Select user type</label>
 <select class="form-select" id="select_user" aria-label="Default select example">
@@ -31,6 +31,7 @@
   </div>
   <div class="d-block text-danger" id="errors">
 {errors()}
+
 </div>
 </div>
 </body>

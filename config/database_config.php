@@ -3,10 +3,12 @@
 /*This file contains configuration options for the database connection/s
 here you can set the database names, the server ip and usernames and passwords  */
 
+use Framework\Classes\PDODatabaseAccess;
+
 return [
     'connection_used'=>'connection1',
     
-    'database_driver_class'=>PDODatabaseAccess::class,
+    'database_access_class'=>PDODatabaseAccess::class,
 
     'connection1'=>[
         'driver'=>'mysql',

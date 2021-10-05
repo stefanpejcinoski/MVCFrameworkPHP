@@ -2,6 +2,7 @@
 /*This file contains configuration options for the application itself
 here you can set debug messages on or off and set the app name */
 
+use Framework\Classes\SessionAuthentication;
 use Framework\Classes\SmartyRenderer;
 
 return [
@@ -18,6 +19,8 @@ return [
     /* Set the tamplate directory for Smarty templates */
     'template_directory'=>'resources/templates',
 
+    /*The home route */
+    'home_route'=>'home',
 
     /* Set the directory for stylesheets */
     'stylesheets_directory'=>'resources/css',
@@ -37,13 +40,12 @@ return [
     /* 404 Page not found template name */
     'page_not_found_template'=>'pagenotfound',
 
-    /* Authentication method, the value is the class used to authenticate the user on every incoming request. If false then no authentication will be done. */
-    'auth'=>false,
-
     /* Location where unauthorized users are redirected */
     'redirect_unauthorized'=>'home',
 
     /* Algorithm used for hashing passwords */
-    'password_hashing_algorithm'=>'PASSWORD_BCRYPT'
+    'password_hashing_algorithm'=>'PASSWORD_BCRYPT',
 
+    /* Class for authentication */
+    'auth'=>SessionAuthentication::class
 ];

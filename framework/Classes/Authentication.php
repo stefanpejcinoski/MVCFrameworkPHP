@@ -24,42 +24,25 @@ use Framework\Classes\Request;
             $this->authenticate = true;
         }
      }
-     
-     public function setAuthId(int $id)
-     {
-         Session::setKey('auth_user', $id);
-     }
-
-     public function isAuth()
-     {
-         return Session::hasKey('auth_user');
-     }
-
-     public function getAuthUser(){
-         return Session::getKey('auth_user');
-     }
-
-     public function clearAuth()
-     {
-         Session::clearKey('auth_user');
-     }
-
-     public static function makeAuth() :Authentication
-     {
-        return new Authentication;
-     }
-
-     public function authEnabled() :bool 
-     {
-         return $this->authenticate;
-     }
-
-     public function authenticateRequest(Request $request) 
-     {
-        if($this->isAuth())
-            return true;
-        else
-            return Redirect::redirectUnauthorized($request);
-    }
     
+    public static function makeAuth()
+    {
+        return new Authentication;
+    }
+
+    public function authenticateRequest(Request $request)
+    {
+        if($this->authenticator->isAuthenticated($request))
+            return true;
+        else return Redirect::redirectUnauthorized();
+    }
+
+    public function authenticateUser(string $password, string $hash, int $id)
+    {
+        if(Encryption::checkPassword($password, $hash)){
+            $this->authenticator->setAuth($id);
+            return true;
+        }
+        return false;
+    }
  }

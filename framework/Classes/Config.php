@@ -40,7 +40,7 @@ class Config
     {
         if($this->hasKey($key))
             return $this->config[$key];
-        else throw new InvalidArgumentException('The required key does not exist!');
+        else throw new InvalidArgumentException('The config key '.$key.' does not exist!');
     }
 
     public function getAll()  :array

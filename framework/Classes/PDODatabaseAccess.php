@@ -1,5 +1,8 @@
 <?php
-
+namespace Framework\Classes;
+use PDO;
+use Exception;
+use PDOException;
 use Framework\Interfaces\DatabaseConnectionInterface;
 
 /**
@@ -9,7 +12,7 @@ use Framework\Interfaces\DatabaseConnectionInterface;
  class PDODatabaseAccess implements DatabaseConnectionInterface
 
 {
-    protected PDODatabaseAccess $instance;
+    protected static PDODatabaseAccess $instance;
     protected string $query;
     protected array $preparedParameters;
     protected array $pdo_options;
@@ -35,32 +38,27 @@ use Framework\Interfaces\DatabaseConnectionInterface;
        $this->connect();
     }
 
-    public function getInstance(){
-        if(is_object($this->instance))
-            return $this->instance;
-        else return ($this->instance = new PDODatabaseAccess); 
+    public static function getInstance(){
+        if(isset(self::$instance))
+            return self::$instance;
+        else return (self::$instance = new PDODatabaseAccess); 
     }
 
     protected function connect(){
-        try {
             $this->PdoInstance = new PDO($this->pdo_config, $this->db_options['db_user'], $this->db_options['db_password'], $this->pdo_options);
-        }
-        catch (PDOException $e){
-            throw new PDOException($e->getMessage(), (int)$e->getCode());
-        }
     }
 
     
     public function query(string $query)
     {
         $this->query = $query;
-        return $this->instance;
+        return self::$instance;
     }
 
     public function with(array $parameters)
     {
         $this->preparedParameters = $parameters;
-        return $this->instance;
+        return self::$instance;
     }
 
     public function run()

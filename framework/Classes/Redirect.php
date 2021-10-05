@@ -12,17 +12,24 @@ use Framework\Classes\Request;
     public static function redirectUnauthorized()
     {
         Session::append('errors', "You're not authorized to see this page");
-        $redirectUnauthorizedTo = Config::getConfig('app')->getKey('redirect_unauthorized');
-        $routeForRedirect = Router::getRouter()->getRouteByName($redirectUnauthorizedTo);
-        http_response_code(401);
-        header('Location: '.$routeForRedirect);
+        $redirectUnauthorizedTo = config('app', 'redirect_unauthorized');
+        $routeForRedirect = route($redirectUnauthorizedTo);
+        header('Location: '.$routeForRedirect, true, 401);
         exit();
     }
-    public static function redirectWithValidationErrors()
+    public static function redirectWithErrors(int $code)
     {
         $previousRoute = Session::getKey('current_route');
-        http_response_code(422);
+        http_response_code($code);
         header('Location: '.$previousRoute);
+        exit();
+    }
+
+    public static function redirectHome()
+    {
+        $homeRoute = config('app', 'home_route');
+        $routeForRedirect = route($homeRoute);
+        header("Location: ".$routeForRedirect);
         exit();
     }
  }
