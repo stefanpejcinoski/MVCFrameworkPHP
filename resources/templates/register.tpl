@@ -36,8 +36,8 @@
   </div>
 
    <div class="form-group">
-   <label for="typeselect">Select user type</label>
-  <select class="form-select form-select-lg" id="typeselect" name="user-type" required>
+  <select class="form-select form-control form-select-lg" id="typeselect" name="user-type" onchange="Register.getTechnologiesForType(this)" required>
+  <option value='' selected>Select user type</option>
   {foreach from=$types  item=type}
   <option value="{$type['id']}">{$type['type']}</option>
   {/foreach}

@@ -5,7 +5,7 @@
  * an action the url will execute, a name that can be used to look up the url with the route() helper and an auth value that determines
  * if the route is acessable by logged in users only or by everyone*/
 
-use Controllers\AuthController;
+use Controllers\UserController;
 use Framework\Classes\View;
 use Framework\Classes\Config;
 use Controllers\HomeController;
@@ -18,17 +18,17 @@ return [
             'auth'=>false
         ],
         '/login'=>[
-            'action'=>[AuthController::class, 'loginView'],
+            'action'=>[UserController::class, 'loginView'],
             'name'=>'login',
             'auth'=>false
         ],
         '/register'=>[
-            'action'=>[AuthController::class, 'registerView'],
+            'action'=>[UserController::class, 'registerView'],
             'name'=>'register',
             'auth'=>false
         ],
         '/logout'=>[
-            'action'=>[AuthController::class, 'logout'],
+            'action'=>[UserController::class, 'logout'],
             'name'=>'logout'
         ],
         '/test'=>[
@@ -40,13 +40,14 @@ return [
         ],
     'post'=>[
         '/login'=>[
-            'action'=>[AuthController::class, 'login'],
+            'action'=>[UserController::class, 'login'],
             'name'=>'loginpost'
         ],
         '/register'=>[
-            'action'=>[AuthController::class, 'register'],
+            'action'=>[UserController::class, 'register'],
             'name'=>'registerpost'
         ]
+       
         ],
     'put'=>[
         '/test/{}'=>[

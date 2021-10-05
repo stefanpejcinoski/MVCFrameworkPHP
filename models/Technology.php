@@ -7,7 +7,7 @@ use Exception;
  * A model for the technologies
  */
 
- class Technologies extends Model 
+ class Technology extends Model 
  {
      public function getTechnologies()
      {

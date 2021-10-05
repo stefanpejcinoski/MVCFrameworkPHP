@@ -8,13 +8,15 @@ use Framework\Classes\Redirect;
 use Framework\Classes\Request;
 use Framework\Classes\Session;
 use Framework\Classes\Validator;
+use Models\Framework;
+use Models\Technology;
 use Models\User;
 /**
- * Contains simple login/register/password reset functionality
+ * Contains simple login/register functionality for the code test task
  */
 
 
- class AuthController
+ class UserController
  {
      public function registerView(Request $request)
      {
@@ -75,4 +77,5 @@ use Models\User;
          Session::append('messages', "Logged out succesfully");
          Redirect::redirectHome();
      }
+
  }
