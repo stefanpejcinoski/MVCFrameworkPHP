@@ -1,14 +1,14 @@
 <?php
-namespace Framework\Classes;
+namespace Framework\Model;
 use Framework\Classes\Model;
 use Framework\Classes\Encryption;
 use Error;
 use InvalidArgumentException;
 /**
- * A model for the application user, this model is mandatory for any application but can be extended to fit the needs of the project
+ * A model for the application user
  */
 
- class StandardUserModel extends Model
+ class User extends Model
  {
 
   

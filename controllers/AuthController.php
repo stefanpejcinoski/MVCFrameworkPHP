@@ -7,7 +7,7 @@ use Framework\Classes\Authentication;
 use Framework\Classes\Redirect;
 use Framework\Classes\Request;
 use Framework\Classes\Session;
-use UserModel;
+use Framework\Model\User;
 use Framework\Classes\Validator;
 use Framework\Classes\StandardUserModel;
 
@@ -38,7 +38,7 @@ use Framework\Classes\StandardUserModel;
 
          Validator::getValidator($rules)->validateRequest($request);
 
-         $user = new StandardUserModel;
+         $user = new User;
          $status = $user->createUser($request->getKey('name'), $request->getKey('email'), $request->getKey('password'));
          if(!$status)
             throw new Exception("User query failed");
@@ -55,7 +55,7 @@ use Framework\Classes\StandardUserModel;
 
         Validator::getValidator($rules)->validateRequest($request);
 
-        $user = new StandardUserModel;
+        $user = new User;
         $userData = $user->getUser($request->getKey('email'));
         if(!$userData)
             throw new Exception("User query failed");
