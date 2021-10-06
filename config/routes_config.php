@@ -52,11 +52,11 @@ return [
            'action'=>[UserController::class , 'search'],
            'name'=>'search'
        ]
-        ],
+    ],
     'put'=>[
-        '/test/{}'=>[
-            'action'=>fn($request, $id)=>die(var_dump($request->all())),
-            'name'=>'test'
-        ]
+        
+    ],
+    'delete'=>[
+
     ]
 ];

@@ -35,7 +35,7 @@
      *
      * @param string $name cookie name
      *
-     * @return void
+     * @return bool The success of the operation
      */
     public static function clearCookie(string $name)
     {
@@ -52,7 +52,7 @@
      * @param bool $secure Indicates whether the cookie should only be transmitted on a HTTPS connection.
      * @param bool $httponly When true the cookie will only be accessible through the HTTP protocol.
      *
-     * @return void
+     * @return bool The success of the operation
      */
     public static function setCookie(string $name, string $data, int $expires = 0, string $path = '' , string $domain = '', bool $secure = false, bool $httponly = false)
     {

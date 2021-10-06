@@ -63,10 +63,37 @@ If your view is going to contain a form, the form must have a csrf token field. 
 .
 </form>
 ```
+
+### The Request object
+
+On startup the incoming request is captured and stored as a Request class object.
+The Request class provides methods for working with the captured request.
+The methods provided are:
+
+1. ```hasCookie($cookie)``` Checks if the request has the provided cookie
+2. ```getCookie($cookie)``` Returns a cookie if present in the request
+3. ```getAllCookies()``` Returns all cookies from the request
+4. ```isFormData()``` Checks if the request contains form data
+5. ```hasKey($key)``` Checks if the request has the provided parameter key 
+6. ```getKey($key)``` Returns the parameter that has the provided parameter key, if it exists
+7. ```method()``` Returns the request method (POST, GET, PUT, PATCH, DELETE)      
+8. ```all()``` Returns all request parameters
+9. ```only($parameters)``` Returns those request parameters whose keys you pass as a parameter to the function
+10. ```getContentType()``` Returns the content type header of the request
+11. ```accepts()``` Returns the content of the accept header
+12. ```getFullRequestUrl()``` Returns the full url of the request
+13. ```getRequestPath()``` Returns only the path of the request
+14. ```getHost()``` Returns only the host of the request
+15. ```hasId()``` Checks if the request target is a resource id, example ```/resource/1```
+16. ```getPathElements()``` If the request path has a resource id get the elements of the path
+
 ### Controllers
 
 Controllers are stored in the controllers folder.
 All controllers must extend the base Controller class.
+
+All controller methods that will be used as POST/GET route targets need to accept an instance of the Request class as their first parameter and have all other parameters be optional.
+
 
 ### Models
 
@@ -82,7 +109,10 @@ The methods available are:
 4. ```fetch()``` Run the query and fetch all rows that the query returns, the results are returned in an associative array containing ```status``` - the success of the query and ```results``` an array of the returned rows.
 5. ```first()``` Run the query and fetch only the first row, the results are returned in an associative array containing ```status``` - the success of the query and ```results``` the returned row.
 
-An example call to database would be ```$this->database->query("select * from users where id = :id")->with([':id'=>the_id])->fetch()```
+An example call to database would be \
+```
+$this->database->query("select * from users where id = :id")->with([':id'=>the_id])->fetch()
+```
 
 ### Authentication 
 
@@ -115,7 +145,7 @@ If validation fails the user will be redirected back to the previous page with t
 
 The request validation can be done with a shorter expression ```validate($request, $rules)```
 
-The error messages from a failed validation can be retrieved using the ```error()``` function. This function will retrieve the errors from session in a string, separated by linebreaks. This function can be used inside a template to show the errors when the user gets redirected back.
+The error messages from a failed validation can be retrieved using the ```errors()``` function. This function will retrieve the errors from session in a string, separated by linebreaks. This function can be used inside a template to show the errors when the user gets redirected back.
 An example of how this function can be used:
 ```
 <form>
@@ -128,5 +158,34 @@ An example of how this function can be used:
 </div>
 ```
 
+### Cookies
 
+The framework provides a Cookies class that contains methods for setting and reading encrypted cookies.
+The encryption algorithm can be found in ```/config/app_config.php```
 
+#### Reading cookies
+
+For reading encrypted cookies (encrypted by the application itself since only the algorithm used by the app can be decrypted)
+the method ```Cookies::readCookieFromRequest($request, $name)``` can be used. The method takes in the request and the name of the cookie you're looking for and returns the cookie as a string.
+
+#### Setting cookies 
+
+For setting encrypted cookies the method ```Cookies::setCookie(string $name, string $data)``` is provided. The method takes in the cookie name and value and returns the success of the operation.
+
+#### Clearing a cookie
+
+For clearing a cookie the method ```Cookie::clearCookie(string $name)``` is provided. The method takes the cookie name as a string and sets it's expire date to be in the past. 
+
+### Encryption
+
+The Encryption class is used to hash passwords and encrypt data for cookies, but is also available for the user to utilise wherever they see fit.
+
+#### Encrypting data
+
+For encrypting data, the method ```encryptString($string)``` is provided. The data needs to be in a string format. The method returns the encrypted data as a string.
+This method can also be called in a one line statement like ```Encryption::getInstance()->encryptString($string)```
+
+#### Decrypting data
+
+For decrypting data, the method ```decryptString($string)``` is provided. The data needs to be in a string format. The method returns the decrypted data as a string.
+This method can also be called in a one line statement like ```Encryption::getInstance()->decryptString($string)```
