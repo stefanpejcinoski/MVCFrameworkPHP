@@ -16,7 +16,6 @@
 </nav>
 <div class="container">
 {$login}
-{errors()}
 </div>
 </body>
 </html>

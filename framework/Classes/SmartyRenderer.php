@@ -5,12 +5,12 @@
  */
 
  namespace Framework\Classes;
- use Framework\Interfaces\TemplateRendering;
-use Framework\Interfaces\TemplateRenderingInterface;
+
+use Framework\Interfaces\TemplateRenderer;
 use Framework\Traits\TemplateHelpers;
  use Smarty;
 
- class SmartyRenderer implements TemplateRenderingInterface
+ class SmartyRenderer implements TemplateRenderer
  {
     use TemplateHelpers;
 
@@ -20,17 +20,31 @@ use Framework\Traits\TemplateHelpers;
      {
       
          $this->smartyInstance = new Smarty();
-         $this->smartyInstance->setCompileDir($this->getCompiledTemplateDirectory(Config::getConfig('app')));
+         $this->smartyInstance->setCompileDir($this->getCompiledTemplateDirectory(Config::getInstance('app')));
          $this->smartyInstance->caching = false;
        
      }
-
-     public static function getInstance()
+     
+     /**
+      * Method getInstance
+      *
+      * Get an instance of the Smarty template renderer
+      * @return SmartyRenderer
+      */
+     public static function getInstance() :SmartyRenderer
      {
          return new SmartyRenderer();
      }
 
-
+     
+     /**
+      * Method assignVariables
+      *
+      * Assign variables to the current template
+      * @param array $variables Array of variables to assign
+      *
+      * @return void
+      */
      public function assignVariables(array $variables)
      {
          if (!empty($variables))
@@ -40,17 +54,32 @@ use Framework\Traits\TemplateHelpers;
             }
          }
      }
-
+     
+     /**
+      * Method renderAndDisplayTemplate
+      *
+      * Render and display the provided template
+      * @param string $template The template file name (without an extension)
+      * @param array $variables Variables to assign to the template
+      *
+      * @return void
+      */
      public function renderAndDisplayTemplate(string $template, array $variables)
      {
-     
-       
          $this->assignVariables($variables);
-       
          $this->smartyInstance->display($template);
      }
-
-     public function getRenderedTemplateString(string $template, array $variables)
+     
+     /**
+      * Method getRenderedTemplateString
+      *
+      * Render the provided template and return it as a string
+      * @param string $template The template file name (without an extension)
+      * @param array $variables Variables to assign to the template
+      *
+      * @return string The template string
+      */
+     public function getRenderedTemplateString(string $template, array $variables) :string
      {
          $this->assignVariables($variables);
          return $this->smartyInstance->fetch($template);

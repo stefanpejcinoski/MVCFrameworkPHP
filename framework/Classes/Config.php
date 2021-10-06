@@ -14,12 +14,23 @@ class Config
     public function __construct(string $configname)
     {
         $this->config = self::getConfigArray($configname);
-    }
-    public static function getConfig($configname){
-        $instance = new Config($configname);
-        return $instance;
+    }    
+    /**
+     * Method getInstance
+     * 
+     * Returns an instance of the class with the provided config file loaded
+     *
+     * @param string $configname The name of the config to be loaded
+     *
+     * @return Config
+     */
+    public static function getInstance($configname) :Config
+    {
+        return new Config($configname);
     }
     /** 
+     * Method hasKey
+     * 
      * Checks if the given key exists in the config
      * 
      * @param string $key
@@ -31,6 +42,8 @@ class Config
     }
 
     /**
+     * Method getKey
+     * 
      * Returns the value for the given configuration key if it exists
      * 
      * @param string $key

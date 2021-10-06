@@ -12,6 +12,8 @@
  {
      
     /**
+     * Method readCookieFromRequest
+     * 
      * Read an encrypted cookie from the incoming request. Returns the cookie on success or false on failure
      *
      * @param Request $request The request object
@@ -27,6 +29,8 @@
     }
     
     /**
+     * Method clearCookie
+     * 
      * Removes the given cookie
      *
      * @param string $name cookie name

@@ -30,8 +30,8 @@ if(!function_exists('viewString')){
 if(!function_exists('config')){
     function config(string $name, string $key = ''){
         if(strlen($key) > 0)
-            return Config::getConfig($name)->getKey($key);
-        return Config::getConfig($name)->getAll();
+            return Config::getInstance($name)->getKey($key);
+        return Config::getInstance($name)->getAll();
     }
 }
 
@@ -44,7 +44,7 @@ if(!function_exists('validate')){
 if(!function_exists('route')){
     function route(string $name, array $parameters = [])
     {
-        return Router::getRouter()->getRouteByName($name, $parameters);
+        return Router::getInstance()->getRouteByName($name, $parameters);
     }
 }
 

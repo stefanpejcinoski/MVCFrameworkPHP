@@ -1,6 +1,8 @@
 <?php
-/*This file contains configuration options for the application itself
-here you can set debug messages on or off and set the app name */
+/**
+ * Contains configuration options for the application
+ */
+
 
 use Framework\Classes\SessionAuthenticator;
 use Framework\Classes\SmartyRenderer;
@@ -13,14 +15,18 @@ return [
     note that you also need to make an interface class for the engine you're planning to use 
     and have it implement the Framework/Interfaces/TemplateRendering interface. */
     'template_engine'=>SmartyRenderer::class,
+
     /* Set the app name which can later be retrieved anywhere in the application */ 
     'app_name'=>"Framework test app",
 
-    /* Set the tamplate directory for Smarty templates */
+    /* Set the tamplate directory for view templates */
     'template_directory'=>'resources/templates',
 
     /*The home route */
     'home_route'=>'home',
+
+    /* Template extension (change if using a different templating engine) */
+    'template_extension'=>'.tpl',
 
     /* Set the directory for stylesheets */
     'stylesheets_directory'=>'resources/css',
@@ -43,13 +49,13 @@ return [
     /* Location where unauthorized users are redirected */
     'redirect_unauthorized'=>'home',
 
-    /* Algorithm used for hashing passwords */
-    'password_hashing_algorithm'=>'2y',
+    /* Algorithm used for hashing passwords, currently hashing is done with the PHP password_hash function */
+    'password_hashing_algorithm'=>PASSWORD_DEFAULT,
 
-    /* Algorithm used for 2 way encryption */
+    /* Algorithm used for 2 way encryption, currently encryption is done with PHP's openssl_encrypt/openssl_decrypt */
     'encryption_algorithm'=>'aes256',
 
-    /* 2 way encryption cypher */
+    /* 2 way encryption private key */
     'private_key'=>'@NcRfUjXn2r5u8x/A%D*G-KaPdSgVkYp3s6v9y$B&E(H+MbQeThWmZq4t7w!z%C*',
 
     /* Class for authentication */

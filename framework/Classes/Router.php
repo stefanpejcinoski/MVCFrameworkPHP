@@ -16,9 +16,11 @@ class Router
 
     public function __construct()
     {
-        $this->routes = Config::getConfig('routes')->getAll();
+        $this->routes = Config::getInstance('routes')->getAll();
     }
     /**
+     * Method handleRequest 
+     * 
      * Handles the request contained in the provided Request object
      * 
      * @param Framework\Request $request
@@ -42,8 +44,15 @@ class Router
                 break;
         }
     }
-  
-    public static function getRouter() :Router 
+      
+    /**
+     * Method getInstance
+     * 
+     * Return an instance of the class
+     *
+     * @return Router
+     */
+    public static function getInstance() :Router 
     {
         return new Router();
     }
@@ -77,7 +86,7 @@ class Router
             }
         
             else {
-                View::getInstance()->display(Config::getConfig('app')->getKey('page_not_found_template'));
+                View::getInstance()->display(Config::getInstance('app')->getKey('page_not_found_template'));
                 http_response_code(404);
             }
         }
@@ -94,7 +103,7 @@ class Router
           
         }
         else {
-            View::getInstance()->display(Config::getConfig('app')->getKey('page_not_found_template'));
+            View::getInstance()->display(Config::getInstance('app')->getKey('page_not_found_template'));
             http_response_code(404);
         }
     }
@@ -197,7 +206,17 @@ class Router
         }
     }
 }
-
+ 
+ /**
+  * Method getRouteByName
+  *
+  * Searches for the provided route name and returns the route.
+  *
+  * @param string $name The route name 
+  * @param array  $queryParameters Optional, parameters to attach to the new route as GET query parameters 
+  *
+  * @return string The full route
+  */
  public function getRouteByName (string $name, array $queryParameters = []) :string
  {
      $newRoute = false;

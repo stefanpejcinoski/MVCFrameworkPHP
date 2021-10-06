@@ -1,3 +1,6 @@
+<div class="text-success">
+{messages()}
+</div>
 <form method="POST" action="{route('loginpost')}">
 {csrf()}
 <div class="form-group">
@@ -9,4 +12,7 @@
 <input type="password" class="form-control" id="password" name="password" required>
 </div>
 <button class="btn btn-light" type="submit">LogIn</button>
+<div class="text-danger">
+{errors()}
+</div>
 </form>

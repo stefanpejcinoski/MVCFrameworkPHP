@@ -32,30 +32,30 @@ use Framework\Classes\Router;
         Session::start();
 
         //Check if app is in maintenance mode
-        if(Config::getConfig('app')->getKey('maintenance') == 'On')
+        if(Config::getInstance('app')->getKey('maintenance') == 'On')
         {
             //TODO handle maintenance mode 
             return view('maintenance', ['appname'=>config('app', 'app_name')]);
         }
 
-        //Capture the incoming request
+        /* Capture the incoming request */
         $this->request = new Request();
         
-        //If CSRF protection is enabled and request is from a form submit check if CSRF token is present
-        if (Config::getConfig('app')->getKey('csrf') == 'On'){
+        /* If CSRF protection is enabled and request is from a form submit check if CSRF token is present */
+        if (Config::getInstance('app')->getKey('csrf') == 'On'){
             if (!CSRFProtection::verifyRequest($this->request)){
                throw new Exception("CSRF Token mismatch.");
             }
 
-             //If CSRF is enabled generate a new CSRF token to be used later in the app
+             /* If CSRF is enabled generate a new CSRF token to be used later in the app */
             CSRFProtection::generateToken();
         }
 
        
 
-            //Handle the captured request
-            $this->router->handleRequest($this->request);
-   
+        /* Handle the captured request */
+        $this->router->handleRequest($this->request);
+        exit();
        
     }
 

@@ -1,11 +1,14 @@
 <?php
-
+/**
+ * A base model class from which all other models inherit their functionality. 
+ * Provides simple database access to it's children.
+ */
 namespace Framework\Classes;
-use Framework\Interfaces\DatabaseConnectionInterface;
+use Framework\Interfaces\DatabaseAccess;
 class Model 
 
 {
-    protected DatabaseConnectionInterface $database;
+    protected DatabaseAccess $database;
 
     public function __construct()
     {

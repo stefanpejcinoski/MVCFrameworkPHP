@@ -6,7 +6,6 @@
 
  namespace Framework\Classes;
 
-use Exception;
 use InvalidArgumentException;
 
 class Validator
@@ -17,9 +16,30 @@ class Validator
      {
          $this->rules = $rules;
      }
+          
+     /**
+      * Method getInstance
+      *
+      * Returns an instance of the Validator with the provided rules.
+      *
+      * @param $rules Associative array of rules for the validator
+      *
+      * @return Validator $instance
+      */
      public static function getInstance($rules) {
         return new Validator($rules);
      }
+
+          
+     /**
+      * Method validateRequest
+      *
+      * Validate the provided request against the loaded rules. If a validation fails redirects the user to the previous page with errors.
+      *
+      * @param Request $request The request to verify
+      *
+      * @return void
+      */
      public function validateRequest(Request $request) {
          foreach($this->rules as $field=>$rules)
             foreach($rules as $rule){

@@ -17,9 +17,13 @@ class Request
     protected $parameters;
     protected $cookies;
     protected $query;
+       
     /**
-     * Captures an incoming request and saves it in a Request object where it can later be processed using the class methods
+     * Method __construct
      * 
+     * Captures an incoming request and saves it in a Request object where it can later be processed using the class methods
+     *
+     * @return void
      */
     public function __construct()
     {
@@ -62,18 +66,43 @@ class Request
         parse_str(parse_url($this->getFullRequestUrl(), PHP_URL_QUERY), $query);
         $this->query = $query;
     }
-
+    
+    /**
+     * Method hasCookie
+     * 
+     * Checks if a cookie exists in the request
+     *
+     * @param string $key The name of the cookie 
+     *
+     * @return bool true if cookie exists otherwise false
+     */
     public function hasCookie(string $key)
     {
         return isset($this->cookies[$key]);
     }
-
+    
+    /**
+     * Method getCookie
+     * 
+     * Returns the cookie as a string if it exists
+     *
+     * @param string $key The name of the cookie
+     *
+     * @return mixed the cookie string if it exists otherwise false
+     */
     public function getCookie(string $key)
     {
         if ($this->hasCookie($key))
             return $this->cookies[$key];
         else return false;
-    }
+    }    
+    /**
+     * Method getAllCookies
+     * 
+     * Get all cookies from the request
+     *
+     * @return array An associative array containing the cookies
+     */
     public function getAllCookies()
     {
         return $this->cookies;
@@ -86,39 +115,82 @@ class Request
     {
         $this->cookies = $_COOKIE;
     }
-
+    
+    /**
+     * Method isFormData
+     * 
+     * Checks if the request contains form data
+     *
+     * @return bool
+     */
     public function isFormData() :bool 
     {
         return $this->method != "GET" && ($this->getContentType() == "application/x-www-form-urlencoded" || $this->getContentType() == "multipart/form-data");
     }
-
+    
+    /**
+     * Method hasKey
+     * 
+     * Checks if the request has the specified key
+     *
+     * @param string $key The key name
+     *
+     * @return bool
+     */
     public function hasKey(string $key) :bool 
     {
         return (array_key_exists($key, $this->parameters) && isset($this->parameters[$key]));
     }
-
+    
+    /**
+     * Method getKey
+     * 
+     * Get the value of the provided key, in the request parameters
+     *
+     * @param string $key [explicite description]
+     *
+     * @return string The value of the key
+     */
     public function getKey(string $key) 
     {
         if ($this->hasKey($key))
             return $this->parameters[$key];
         return false;
     }
-
+    
+    /**
+     * Method method
+     * 
+     * Get the request method
+     *
+     * @return string The method ('POST', 'GET', 'PUT', 'PATCH', 'DELETE')
+     */
     public function method() :string
     {
         return $this->method;
     }
-
-    public function acceptsJson() :bool 
-    {
-        return in_array('application/json', $this->accepts) || in_array('*/*', $this->accepts);
-    }
-
+  
+    /**
+     * Method all
+     * 
+     * Get all request parameters
+     *
+     * @return array The request parameters
+     */
     public function all() :array 
     {
         return $this->parameters;
     }
-
+    
+    /**
+     * Method only
+     * 
+     * Get only those parameters with names contained in the provided array
+     *
+     * @param array $parameters An array of parameter names
+     *
+     * @return array The parameters
+     */
     public function only(array $parameters) :array
     {
         $returnArray = [];
@@ -128,31 +200,74 @@ class Request
         return $returnArray;
     }
     
-
+    
+    /**
+     * Method getContentType
+     * 
+     * Get the request content type
+     *
+     * @return string The content type
+     */
     public function getContentType() :string 
     {
         return $this->headers['Content-Type'];
     }
-
+    
+    /**
+     * Method accepts
+     * 
+     * Get the data types the request accepts
+     *
+     * @return array The data types the request accepts
+     */
     public function accepts() :array
     {
         return $this->accepts;
     }
-    
+        
+    /**
+     * Method getFullRequestUrl
+     * 
+     * Get the full URL of the request
+     *
+     * @return string The full URL
+     */
     public function getFullRequestUrl() :string
     {
       
         return (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
     }
-
+    
+    /**
+     * Method getRequestPath
+     * 
+     * Get the request path
+     *
+     * @return string The request path
+     */
     public function getRequestPath() :string
     {
         return parse_url($this->getFullRequestUrl(), PHP_URL_PATH);
-    }
+    }    
+    /**
+     * Method getHost
+     * 
+     * Get the request url host
+     *
+     * @return string The url host
+     */
     public function getHost() :string 
     {
         return parse_url($this->getFullRequestUrl(), PHP_URL_HOST);
-    }
+    }    
+       
+    /**
+     * Method hasId
+     * 
+     * Check if the request path has a resource ID
+     *
+     * @return bool true if the path contains an id otherwise false
+     */
     public function hasId() :bool
     {
         $url = $this->getRequestPath();
@@ -163,7 +278,14 @@ class Request
         }
         return false;
     }
-
+    
+    /**
+     * Method getPathElements
+     * 
+     * Get the elements of the current request's path if the path contains a resource ID
+     *
+     * @return array An array containing the elements of the request path if the path has a resource ID, 'before' - the element before the resource ID, 'id' - the resource ID, 'after' - the element after the resource ID
+     */
     public function getPathElements()
     {
         if($this->hasId()){

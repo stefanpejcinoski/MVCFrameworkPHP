@@ -93,8 +93,9 @@ use Models\User;
             Session::append('errors', "Wrong password");
             return Redirect::redirectWithErrors(422);
         }  
-        if($request->hasCookie('query'))
-            $this->search($request);
+        if($request->hasCookie('query')){
+            return $this->search($request);
+        }
         Session::append('messages', "Welcome ".$userData['username']."!");
         return Redirect::redirectHome();
      }
@@ -106,24 +107,30 @@ use Models\User;
          Redirect::redirectHome();
      }
 
+     public function resultsPage(Request $request)
+     {
+        $results = Cookies::readCookieFromRequest($request, 'results');
+        Cookies::clearCookie('results');
+        return view('results', ['appname'=>config('app', 'app_name'), 'results'=>json_decode($results, true)]);
+     }
+
      public function search(Request $request) {
          $user = new User;
         $query_name = $request->getKey('user-name');
         $query_type = $request->getKey('user-type');
         if(!Authentication::getInstance()->isAuthenticated()){
            $query = ['name'=>$query_name, 'type'=>$query_type];
-           Cookies::setCookie("query", json_encode($query));
-           return view('results', ['appname'=>config('app', 'app_name')]);
+           Cookies::setCookie("query", json_encode($query), time()+36000);
         }
         else{
             if($query = Cookies::readCookieFromRequest($request, 'query')){
                 $data = json_decode($query, true);
                 $query_name = $data['name'];
                 $query_type = $data['type'];
+                Cookies::clearCookie('query');
             }
-            Cookies::clearCookie('query');
             $results = $user->getUsersLikeWithType($query_name, $query_type);
-            
+           
             $return = [];
             $userModel = new User;
             $frameworkModel = new Framework;
@@ -135,7 +142,7 @@ use Models\User;
             $userTechnologiesKv = [];
             $userFrameworksKv = [];
 
-            //Rearange as key value pairs for lookup later on
+            //Rearanges as key value pairs for lookup later on
             foreach($userTypes as $type)
             {
                 $userTypesKv[$type['id']] = $type['name'];
@@ -146,13 +153,13 @@ use Models\User;
             foreach($userFrameworks as $framework){
                 $userFrameworksKv[$framework['id']] = $framework['name'];
             }
-            //Make an array of all users
+            //Makes an array of all users
             foreach($results as $user){
                 if(!isset($return['users']))
                     $return['users'][0] = ['username'=>$user['username'], 'email'=>$user['email']];
                else array_push($return['users'], ['username'=>$user['username'], 'email'=>$user['email']]);
             }
-            //Do lookup on kv pairs for the user's property ids
+            //Does lookup on kv pairs for the user's property ids, creates nested structure to represent the relationships between the counts.
              foreach($results as $user){
                  if(isset($user['type_id'])){
                     
@@ -175,8 +182,8 @@ use Models\User;
                 }
              }
 
-        }    
-
-            return view('results', ['appname'=>config('app', 'app_name'), 'results'=>$return]);
+        }   
+            Cookies::setCookie('results', json_encode($return));
+            return Redirect::redirectToRouteWithCode(route('results'), 200);
      }
  }
