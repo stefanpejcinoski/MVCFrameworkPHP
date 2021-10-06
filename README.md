@@ -25,7 +25,7 @@ Run ```php -S localhost:port``` from the project root directory, replace ```port
 You can now open and use the application in your browser.
 
 
-### Using the framework as a framework
+## Using the framework as a framework
 
 The framework this application is built in can be used as any other PHP framework.
 
@@ -112,6 +112,8 @@ To validate a request call the ```validateRequest($request)``` method from the A
 If validation fails the user will be redirected back to the previous page with the validation errors in session.
 
 #### Short expressions
+
+The request validation can be done with a shorter expression ```validate($request, $rules)```
 
 The error messages from a failed validation can be retrieved using the ```error()``` function. This function will retrieve the errors from session in a string, separated by linebreaks. This function can be used inside a template to show the errors when the user gets redirected back.
 An example of how this function can be used:
