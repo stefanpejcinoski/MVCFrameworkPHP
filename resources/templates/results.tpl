@@ -19,7 +19,7 @@
   <h3>Please log in</h3>
   {viewString('loginform')}
 {else}
-  {if isset($results)}
+  {if isset($results['counts'])}
   <div class="row">
     <div class="col">
       {if isset($results['counts'])}
@@ -52,6 +52,8 @@
       </ul>
     </div>
   </div>
+  {else}
+  <h3>No results found</h3>
   {/if}
 {/if}
 </div>

@@ -16,7 +16,7 @@ use InvalidArgumentException;
      {
          $query_string = "SELECT username, email FROM users WHERE id = :id";
          $query_params = [':id'=>$id];
-         $results = $this->database->query($query_string)->with($query_params)->fetch();
+         $results = $this->database->query($query_string)->with($query_params)->first();
          if (!$results['status'])
             throw new Error("Query failed");
         return $results;
@@ -26,7 +26,7 @@ use InvalidArgumentException;
      {
          $query_string = "SELECT * FROM users WHERE email = :email";
          $query_params = [':email'=>$email];
-         $results = $this->database->query($query_string)->with($query_params)->fetch();
+         $results = $this->database->query($query_string)->with($query_params)->first();
          if (!$results['status'])
             throw new Error("Query failed");
         return $results;

@@ -49,7 +49,17 @@ interface DatabaseAccess
      * Method fetch
      * 
      * Run the query and fetch the data
-     * @return array The query data
+     * @return array An associative array containing 'status' - the query success and 'results' - an array of rows that were found
      */
     public function fetch() :array;
+    
+    /**
+     * Method first
+     * 
+     * Run the query and return the first row found
+     *
+     * @return array An associative array containing 'status' - the query success and 'results' - the row that was found
+     */
+    public function first() :array;
+    
 }

@@ -130,7 +130,7 @@ use Models\User;
                 Cookies::clearCookie('query');
             }
             $results = $user->getUsersLikeWithType($query_name, $query_type);
-           
+       
             $return = [];
             $userModel = new User;
             $frameworkModel = new Framework;

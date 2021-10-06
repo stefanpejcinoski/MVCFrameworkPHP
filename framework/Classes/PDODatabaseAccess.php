@@ -113,7 +113,7 @@ use Framework\Interfaces\DatabaseAccess;
      * 
      * Run the constructed query and fetch the results 
      *
-     * @return array The results will be in an associative array format with the column names as keys and the values as values. If more than one column is returned, the result will be an array of said associative arrays.
+     * @return array An associative array containing 'status'-the query success  and 'results'-the  query results. The results will be an array of the queried rows.
      */
     public function fetch() :array
     {
@@ -123,9 +123,26 @@ use Framework\Interfaces\DatabaseAccess;
         $stmt = null;
         $this->preparedParameters = null;
         $this->query = null;
-        if(count($return) == 1)
-            $return = $return[0];
+        
         return ['status'=>$status, 'results'=>$return];
     }
-
+        
+    /**
+     * Method first
+     *  
+     * Return the first result of the query, use in cases where there can only be one row that matches the query 
+     * 
+     * @return array An associative array containing 'status'-the query success and 'results'-the result row.
+     */
+    public function first() :array
+    {
+        $stmt =$this->PdoInstance->prepare($this->query);
+        $status = $stmt->execute(isset($this->preparedParameters)?$this->preparedParameters:null);
+        $return = $stmt->fetchAll();
+        $stmt = null;
+        $this->preparedParameters = null;
+        $this->query = null;
+        
+        return ['status'=>$status, 'results'=>$return[0]];
+    }
 }
