@@ -16,10 +16,43 @@
 </nav>
 <div class="container">
 {if !(auth())}
-<h3>Please log in</h3>
-{viewString('loginform')}
+  <h3>Please log in</h3>
+  {viewString('loginform')}
 {else}
-
+  {if isset($results)}
+  <div class="row">
+    <div class="col">
+      {if isset($results['counts'])}
+        <ul>
+          {foreach from=$results['counts'] item=count key=key}
+            <li>{$key}({$count['count']})</li>
+            {if isset($count['children'])}
+              <li><ul>
+                {foreach from=$count['children'] item=childrencount key=childkey}
+                  <li>{$childkey}({$childrencount['count']})</li>
+                    {if isset($childrencount['children'])}
+                      <li><ul>
+                      {foreach from=$childrencount['children'] item=grandchildrencount key=grandchildkey}
+                        <li>{$grandchildkey}({$grandchildrencount['count']})</li>
+                      {/foreach}
+                      </ul></li>  
+                    {/if}
+                 {/foreach}
+               </ul></li>
+             {/if}
+           {/foreach}
+         </ul></li>
+       {/if}
+     </div>
+    <div class="col">
+      <ul>
+        {foreach from=$results['users'] item=user}
+          <li>"User: {$user['username']} email: {$user['email']}</li>
+        {/foreach}
+      </ul>
+    </div>
+  </div>
+  {/if}
 {/if}
 </div>
 </body>

@@ -123,21 +123,60 @@ use Models\User;
             }
             Cookies::clearCookie('query');
             $results = $user->getUsersLikeWithType($query_name, $query_type);
-            if(!$results['status'])
-                throw new Exception("Users query failed");
+            
             $return = [];
             $userModel = new User;
             $frameworkModel = new Framework;
             $technologyModel = new Technology;
             $userTypes = $userModel->getTypes();
-            $frameworks = $frameworkModel->getAll();
-            $technologies = $technologyModel->getAll();
-            foreach($results['results'] as $user){
+            $userFrameworks = $frameworkModel->getAll();
+            $userTechnologies = $technologyModel->getAll();
+            $userTypesKv = [];
+            $userTechnologiesKv = [];
+            $userFrameworksKv = [];
 
+            //Rearange as key value pairs for lookup later on
+            foreach($userTypes as $type)
+            {
+                $userTypesKv[$type['id']] = $type['name'];
             }
+            foreach($userTechnologies as $technology){
+                $userTechnologiesKv[$technology['id']] = $technology['name'];
+            }
+            foreach($userFrameworks as $framework){
+                $userFrameworksKv[$framework['id']] = $framework['name'];
+            }
+            //Make an array of all users
+            foreach($results as $user){
+                if(!isset($return['users']))
+                    $return['users'][0] = ['username'=>$user['username'], 'email'=>$user['email']];
+               else array_push($return['users'], ['username'=>$user['username'], 'email'=>$user['email']]);
+            }
+            //Do lookup on kv pairs for the user's property ids
+             foreach($results as $user){
+                 if(isset($user['type_id'])){
+                    
+                    if(!isset($return['counts'][$userTypesKv[$user['type_id']]]['count'])){
+                        $return['counts'][$userTypesKv[$user['type_id']]]['count'] = 1;
+                    }
+                   else $return['counts'][$userTypesKv[$user['type_id']]]['count']+= 1;
+                 }
+                 if(isset($user['technology_id'])){
+                   if(!isset($return['counts'][$userTypesKv[$user['type_id']]]['children'][$userTechnologiesKv[$user['technology_id']]]['count'])){
+                    $return['counts'][$userTypesKv[$user['type_id']]]['children'][$userTechnologiesKv[$user['technology_id']]]['count'] = 1;
+                   }
+                  else $return['counts'][$userTypesKv[$user['type_id']]]['children'][$userTechnologiesKv[$user['technology_id']]]['count'] += 1;
+                }
+                if(isset($user['framework_id'])){
+                   if(!isset($return['counts'][$userTypesKv[$user['type_id']]]['children'][$userTechnologiesKv[$user['technology_id']]]['children'][$userFrameworksKv[$user['framework_id']]]['count'])){
+                    $return['counts'][$userTypesKv[$user['type_id']]]['children'][$userTechnologiesKv[$user['technology_id']]]['children'][$userFrameworksKv[$user['framework_id']]]['count'] = 1;
+                   }
+                  else $return['counts'][$userTypesKv[$user['type_id']]]['children'][$userTechnologiesKv[$user['technology_id']]]['children'][$userFrameworksKv[$user['framework_id']]]['count'] += 1;
+                }
+             }
 
-        }
+        }    
 
-        
+            return view('results', ['appname'=>config('app', 'app_name'), 'results'=>$return]);
      }
  }

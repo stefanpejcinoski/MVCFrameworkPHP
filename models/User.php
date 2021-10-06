@@ -84,6 +84,6 @@ use InvalidArgumentException;
         $results = $this->database->query("select username, email, type_id, technology_id, framework_id from users where (username like '%".$like."%' or email like '%".$like."%') and type_id = ".$type)->fetch();
         if (!$results['status'])
             throw new Error("Query failed");
-        return $results;
+        return $results['results'];
     }
 }
