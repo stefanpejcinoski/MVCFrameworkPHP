@@ -26,6 +26,29 @@ Run ```php -S localhost:port``` from the project root directory, replace ```port
 You can now open and use the application in your browser.
 
 
+### Code test task
+
+The code for the code test task is located in:
+
+#### Code test controllers
+
+```/controllers/UserController.php``` Contains the functionality for user register/login and searching for users
+```/controllers/HomeController.php``` Contains functionality to display the home page.
+
+#### Code test models
+
+```/models/User.php``` Contains functionality to 
+```/models/Technology.php```
+```/models/Framework.php```
+
+#### Code test views
+
+```/resources/templates/home.tpl``` The home page with the search form
+```/resources/templates/login.tpl``` The login page
+```/resources/templates/loginform.tpl``` A login form component to allow having a login form in the results page
+```/resources/templates/register.tpl``` The register page
+```/resources/templates/results.tpl``` The results page
+
 ## Using the framework as a framework
 
 The framework this application is built in can be used like any other PHP framework.

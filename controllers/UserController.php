@@ -12,6 +12,8 @@ use Framework\Classes\Validator;
 use Models\Framework;
 use Models\Technology;
 use Models\User;
+use Models\UserType;
+
 /**
  * Contains simple login/register functionality for the code test task
  */
@@ -21,10 +23,10 @@ use Models\User;
  {
      public function registerView(Request $request)
      {
-         $userModel = new User;
          $frameworkModel = new Framework;
          $technologyModel = new Technology;
-         $userTypes = $userModel->getTypes();
+         $typeModel = new UserType;
+         $userTypes = $typeModel->getTypes();
          $frameworks = $frameworkModel->getAll();
          $technologies = $technologyModel->getAll();
          $allTypesArray = [];
@@ -93,6 +95,7 @@ use Models\User;
             Session::append('errors', "Wrong password");
             return Redirect::redirectWithErrors(422);
         }  
+        //If the user first performed a query before logging in, send them back to finish their query.
         if($request->hasCookie('query')){
             return $this->search($request);
         }
@@ -115,34 +118,38 @@ use Models\User;
      }
 
      public function search(Request $request) {
-         $user = new User;
+         $userModel = new User;
+         $typeModel = new UserType;
         $query_name = $request->getKey('user-name');
         $query_type = $request->getKey('user-type');
         if(!Authentication::getInstance()->isAuthenticated()){
            $query = ['name'=>$query_name, 'type'=>$query_type];
+           
+           //Set a cookie to remember the user's query 
            Cookies::setCookie("query", json_encode($query), time()+36000);
         }
         else{
+
+            //If the user has a query cookie it means they already performed a query, retrieve it from the cookie
             if($query = Cookies::readCookieFromRequest($request, 'query')){
                 $data = json_decode($query, true);
                 $query_name = $data['name'];
                 $query_type = $data['type'];
                 Cookies::clearCookie('query');
             }
-            $results = $user->getUsersLikeWithType($query_name, $query_type);
+            $results = $userModel->getUsersLikeWithType($query_name, $query_type);
        
             $return = [];
-            $userModel = new User;
             $frameworkModel = new Framework;
             $technologyModel = new Technology;
-            $userTypes = $userModel->getTypes();
+            $userTypes = $typeModel->getTypes();
             $userFrameworks = $frameworkModel->getAll();
             $userTechnologies = $technologyModel->getAll();
             $userTypesKv = [];
             $userTechnologiesKv = [];
             $userFrameworksKv = [];
 
-            //Rearanges as key value pairs for lookup later on
+            //Rearange types, frameworks and technologies as key value pairs for lookup later on
             foreach($userTypes as $type)
             {
                 $userTypesKv[$type['id']] = $type['name'];
@@ -159,7 +166,7 @@ use Models\User;
                     $return['users'][0] = ['username'=>$user['username'], 'email'=>$user['email']];
                else array_push($return['users'], ['username'=>$user['username'], 'email'=>$user['email']]);
             }
-            //Does lookup on kv pairs for the user's property ids, creates nested structure to represent the relationships between the counts.
+            //Do lookup on kv pairs for the user's property ids, creates nested structure to represent the relationships between the counts.
              foreach($results as $user){
                  if(isset($user['type_id'])){
                     
