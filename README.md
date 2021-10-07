@@ -37,9 +37,9 @@ The code for the code test task is located in:
 
 #### Code test models
 
-```/models/User.php``` Contains functionality to 
-```/models/Technology.php```
-```/models/Framework.php```
+```/models/User.php``` Contains functionality to create, read and update users 
+```/models/Technology.php``` Contains functionality to read technologies
+```/models/Framework.php``` Contains functionality to read frameworks
 
 #### Code test views
 
