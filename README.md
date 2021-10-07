@@ -64,6 +64,12 @@ If your view is going to contain a form, the form must have a csrf token field. 
 </form>
 ```
 
+### Javascript and CSS
+
+All scripts are stored in the ```/resources``` folder.
+The framework will load all scripts from the ```/resources/css``` and ```/resources/js``` folders.
+
+
 ### The Request object
 
 On startup the incoming request is captured and stored as a Request class object.
@@ -153,7 +159,7 @@ An example of how this function can be used:
 .
 .
 </form>
-<div class="text-danger">
+<div id="errors" class="text-danger">
 {errors()}
 </div>
 ```
@@ -189,3 +195,28 @@ This method can also be called in a one line statement like ```Encryption::getIn
 
 For decrypting data, the method ```decryptString($string)``` is provided. The data needs to be in a string format. The method returns the decrypted data as a string.
 This method can also be called in a one line statement like ```Encryption::getInstance()->decryptString($string)```
+
+### Redirecting users
+
+The framework provides a Redirect class for handling redirects. All user accessable functionality of this class can be accessed through the ```redirect($route, $code, $messages)``` function.
+
+The function has no required parameters , the route parameter should contain a route for the user to be redirected to but if it's empty the user will be redirected to their previous location. 
+
+For redirecting to the home route, the full route is not needed, instead the route parameter could be set to ```'home'```.
+
+The code parameter is the response code for the redirect, if left null the redirect will return a 200 OK code.  
+
+The messages parameter is an array of messages to be saved in session and be available after the redirect. If left out, there won't be any messages saved.
+
+### Viewing messages
+
+For viewing messages set in the current session the function ```messages()``` is provided, it returns the messages formatted for displaying in a template.
+
+Example usage:
+
+```
+<div id="messages" class="text-info">
+{messages()}
+</div>
+```
+

@@ -5,6 +5,7 @@ use Framework\Classes\Request;
 use Framework\Classes\View;
 use Framework\Classes\CSRFProtection;
 use Framework\Classes\Config;
+use Framework\Classes\Redirect;
 use Framework\Classes\Validator;
 use Framework\Classes\Router;
 use Framework\Classes\Session;
@@ -139,12 +140,14 @@ if (!function_exists('messages')){
     function messages(){
         if (Session::hasKey('messages')){
             $messages = Session::getKey('messages');
-            $messageString = '';
-            foreach($messages as $message){
-                $messageString.=$message."<br>";
-            }
-            Session::clearKey('messages');
-            return $messageString;
+            if(!empty($messages)){
+               $messageString = '';
+                foreach($messages as $message){
+                    $messageString.=$message."<br>";
+                }
+                Session::clearKey('messages');
+                return $messageString;
+        }
         }
     }
 }
@@ -177,4 +180,21 @@ if(!function_exists('auth')){
     function auth(){
         return Authentication::getInstance()->isAuthenticated();
     }
+
+ if(!function_exists('redirect')){    
+    /**
+      * Redirects the user to the provided route, if no route provided then redirects to the previous page
+      * @param string $route The route to redirect to
+      */
+     function redirect(string $route, int $code = 200, array $messages = []){
+         Session::setKey('messages', $messages);
+            if(isset($route))
+            {
+                if($route == 'home')
+                    return Redirect::redirectHome($code);
+                return Redirect::redirectToRouteWithCode($route, $code);
+            }
+            else return Redirect::redirectWithErrors($code);
+        }
+}
 }

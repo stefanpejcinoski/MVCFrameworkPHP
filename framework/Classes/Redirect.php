@@ -81,10 +81,11 @@ namespace Framework\Classes;
      *
      * @return void
      */
-    public static function redirectHome()
+    public static function redirectHome(?int $code)
     {
         $homeRoute = config('app', 'home_route');
         $routeForRedirect = route($homeRoute);
+        http_response_code($code??200);
         header("Location: ".$routeForRedirect);
         exit();
     }
