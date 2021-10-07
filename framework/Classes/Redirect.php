@@ -81,7 +81,7 @@ namespace Framework\Classes;
      *
      * @return void
      */
-    public static function redirectHome(?int $code)
+    public static function redirectHome(?int $code = null)
     {
         $homeRoute = config('app', 'home_route');
         $routeForRedirect = route($homeRoute);

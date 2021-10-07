@@ -208,7 +208,9 @@ The code parameter is the response code for the redirect, if left null the redir
 
 The messages parameter is an array of messages to be saved in session and be available after the redirect. If left out, there won't be any messages saved.
 
-### Viewing messages
+### Messages
+
+#### Viewing
 
 For viewing messages set in the current session the function ```messages()``` is provided, it returns the messages formatted for displaying in a template.
 
@@ -219,4 +221,7 @@ Example usage:
 {messages()}
 </div>
 ```
+#### Setting
 
+There is no method to set messages as of now, but they can be set manually since they are stored in the current session.
+To set a message use ```Session::append('messages', "Your message")```
