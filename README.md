@@ -32,21 +32,29 @@ The code for the code test task is located in:
 
 #### Code test controllers
 
-```/controllers/UserController.php``` Contains the functionality for user register/login and searching for users
-```/controllers/HomeController.php``` Contains functionality to display the home page.
+```/controllers/UserController.php``` Contains the functionality for user register/login and searching for users 
+
+```/controllers/HomeController.php``` Contains functionality to display the home page. 
+
 
 #### Code test models
 
 ```/models/User.php``` Contains functionality to create, read and update users 
-```/models/Technology.php``` Contains functionality to read technologies
-```/models/Framework.php``` Contains functionality to read frameworks
+
+```/models/Technology.php``` Contains functionality to read technologies 
+
+```/models/Framework.php``` Contains functionality to read frameworks 
 
 #### Code test views
 
-```/resources/templates/home.tpl``` The home page with the search form
-```/resources/templates/login.tpl``` The login page
-```/resources/templates/loginform.tpl``` A login form component to allow having a login form in the results page
-```/resources/templates/register.tpl``` The register page
+```/resources/templates/home.tpl``` The home page with the search form 
+
+```/resources/templates/login.tpl``` The login page 
+
+```/resources/templates/loginform.tpl``` A login form component to allow having a login form in the results page 
+
+```/resources/templates/register.tpl``` The register page 
+
 ```/resources/templates/results.tpl``` The results page
 
 ## Using the framework as a framework
