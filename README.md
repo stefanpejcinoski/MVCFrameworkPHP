@@ -11,13 +11,14 @@ You must have a database setup and running on your system before starting the ap
 To create the database structure for the app, run the ```migrations_and_seeding.sql``` file in the root directory.
 The file will create a database called ```testdb``` and create the following table structure:
 
-1. users(id, name, email, password, type_id, technology_id, framework_id)
-2. types(id, name)
-3. technologies(id, name, type_id)
-4. frameworks(id, name, technology_id)
+1. ```users(id, name, email, password, type_id, technology_id, framework_id)```
+2. ```types(id, name)```
+3. ```technologies(id, name, type_id)```
+4. ```frameworks(id, name, technology_id)```
 
 And it will seed the database with data for the ```types```, ```frameworks``` and ```technologies``` tables.
 You need to have a database user with access to this new database, enter this user's details in the ```/config/database_config.php``` config file.
+If your database is not running on port ```3306``` that needs to be changed in the config as well.
 
 ### Starting the app
 
@@ -27,7 +28,8 @@ You can now open and use the application in your browser.
 
 ## Using the framework as a framework
 
-The framework this application is built in can be used as any other PHP framework.
+The framework this application is built in can be used like any other PHP framework.
+
 
 ### Configuration
 
@@ -42,7 +44,7 @@ The config files contain additional instructions and explanations for the option
 
 ### Views
 
-Front end templates (views) are stored in the templates folder
+Front end templates (views) are stored in the ```/resources/templates``` folder
 
 The framework uses the Smarty PHP templating engine although it can be easily replaced with another if needed.
 The templates are Smarty PHP templates.
@@ -54,7 +56,7 @@ If you need to inject a view somewhere (for example a login form component), you
 
 #### CSRF protection
 
-If your view is going to contain a form, the form must have a csrf token field. The framework allows for inserting a csrf form field in any form just by calling the csrf helper function from inside the template, example: 
+If your view is going to contain a form, the form must have a csrf token field. The framework allows for inserting a csrf form field in any form just by calling the ```csrf()``` helper function from inside the template, example: 
 ```
 <form>
 {csrf()}
@@ -66,8 +68,8 @@ If your view is going to contain a form, the form must have a csrf token field. 
 
 ### Javascript and CSS
 
-All scripts are stored in the ```/resources``` folder.
-The framework will load all scripts from the ```/resources/css``` and ```/resources/js``` folders.
+All scripts and stylesheets are stored in the ```/resources/css``` and ```/resources/js``` folders respectively.
+The framework will load all scripts and stylesheets it finds in these folders.
 
 
 ### The Request object
